@@ -146,7 +146,7 @@
   
   .signup-form-container { 
     position: relative;
-    top: 50%;
+    top: 57%;;
     left: 50%;
     transform: translate(-50%, -60%);
     text-align: center;
@@ -170,4 +170,92 @@
     outline: none;
     background-color: var(--color-secondary);
     cursor: pointer;
+  }
+
+  #photo-upload-section {
+    text-align: center;
+    margin: 15px 0;
+  }
+
+  #photo-upload-section label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--color-black);
+    font-size: var(--font-size-sm);
+  }
+
+  #photo {
+    width: var(--input-width);
+    padding: var(--spacing-sm);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    color: var(--color-secondary);
+  }
+
+  #photo:hover {
+    border-color: var(--color-secondary);
+  }
+
+  .file-upload-wrapper {
+    text-align: center;
+    margin: 15px 0;
+  }
+
+  .custom-file-upload {
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    padding: 10px 15px;
+    cursor: pointer;
+    display: inline-block;
+    background: var(--color-white);
+    width: var(--input-width);
+    color: var(--color-black);
+    transition: all 0.3s ease;
+  }
+
+  .custom-file-upload:hover {
+    border-color: var(--color-secondary);
+  }
+
+  .upload-icon {
+    color: var(--color-secondary);
+    margin-right: 8px;
+  }
+
+  #file-chosen {
+    font-size: var(--font-size-sm);
+    color: var(--color-black);
+  }
+
+  .file-input {
+    display: none;
+  }
+
+  .image-preview {
+    margin: 10px auto;
+    max-width: var(--input-width);
+    text-align: center;
+  }
+
+  .image-preview img {
+    max-width: 100%;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--color-border);
+  }
+
+  .photo-input-container {
+    margin: 15px 0;
+    text-align: center;
+  }
+
+  .photo-label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--color-black);
+  }
+
+  .photo-input {
+    width: var(--input-width);
+    padding: 5px;
+    color: var(--color-secondary);
   }

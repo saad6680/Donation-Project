@@ -37,12 +37,17 @@
                 <input type="password" placeholder="Password" id="password" class="input-field" required>
                 <br><br>
                 <div class="role-selection">
-                    <input type="radio" name="role" id="backer" value="backer" required>
+                    <input type="radio" name="role" id="backer" value="backer" required onchange="handleRoleChange()">
                     <label for="backer">Backer</label>
-                    <input type="radio" name="role" id="campaigner" value="campaigner">
+                    <input type="radio" name="role" id="campaigner" value="campaigner" onchange="handleRoleChange()">
                     <label for="campaigner">Campaigner</label>
                 </div>
-                <br><br>
+                <br>
+                <div id="photo-upload-section" style="display: none;">
+                    <label for="photo"> Upload Photo your photo:</label>
+                    <input type="file" id="photo" accept="image/*" class="input-field">
+                    
+                </div>
                 <button class="signup-button" type="submit">Sign Up</button>
             </form>
         </div>

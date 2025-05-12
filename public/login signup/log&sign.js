@@ -25,6 +25,21 @@ function validateEmail(email) {
     return emailRegex.test(email);
 }
 
+function handleRoleChange() {
+    const role = document.querySelector('input[name="role"]:checked')?.value;
+    const photoSection = document.getElementById("photo-upload-section");
+    const photoInput = document.getElementById("photo");
+    
+    if (role === "campaigner") {
+        photoSection.style.display = "block";
+        photoInput.required = true;
+    } else {
+        photoSection.style.display = "none";
+        photoInput.required = false;
+        photoInput.value = ""; // Clear any selected file
+    }
+}
+
 function handleSignup(event) {
     event.preventDefault();
     
@@ -32,8 +47,8 @@ function handleSignup(event) {
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value;
     const role = document.querySelector('input[name="role"]:checked')?.value;
+    const photoInput = document.getElementById("photo");
 
- 
     if (!username) {
         alert("Please enter a username");
         return;
@@ -55,7 +70,29 @@ function handleSignup(event) {
     }
 
     
-    console.log("Signup Data:", { username, email, password, role });
+    if (role === "campaigner") {
+        if (!photoInput.files || photoInput.files.length === 0) {
+            alert("Please upload a photo (Click on the upload photo button)");
+            return;
+        }
+        
+       
+        const file = photoInput.files[0];
+        const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+        if (!validTypes.includes(file.type)) {
+            alert("Please upload a valid image file (JPEG, PNG, or GIF)");
+            return;
+        }
+    }
+
+    console.log("Signup Data:", { 
+        username, 
+        email, 
+        password, 
+        role,
+        hasPhoto: photoInput?.files?.length > 0,
+        photo: photoInput.files[0].src
+    });
     alert("Signup successful!");
 }
 
@@ -65,12 +102,10 @@ function handleLogin(event) {
     const username = document.getElementById("loginUsername").value.trim();
     const password = document.getElementById("loginPassword").value;
 
-  
     if (!username || !password) {
         alert("Please enter both username and password");
         return;
     }
-
     
     console.log("Login Data:", { username, password });
     alert("Login successful!");
