@@ -46,6 +46,7 @@ function handleSignup(event) {
     const username = document.getElementById("username").value.trim();
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
     const role = document.querySelector('input[name="role"]:checked')?.value;
     const photoInput = document.getElementById("photo");
 
@@ -54,8 +55,13 @@ function handleSignup(event) {
         return;
     }
 
-    if (password.length < 8 || password.length > 15) {
-        alert("Password must be between 8 and 15 characters");
+    if (password.length < 8 || password.length > 15 ) {
+        alert("Password must be between 8 and 15 characters");    
+        return;
+    }
+
+    if (password !== confirmPassword) {
+        alert("Passwords do not match");
         return;
     }
 

@@ -46,12 +46,12 @@
   } 
   
   .container { 
-    display: grid;
+    display: grid ;
     grid-template-columns: 1fr 2fr;
     width: var(--container-width);
     height: var(--container-height);
-    margin: 10% auto;
-    border-radius: 5px;
+    margin: 5% auto 15%;
+    border-radius: 6px;
   } 
   
   .content-holder { 
@@ -85,10 +85,14 @@
   
   .box-1 { 
     border: 1px solid var(--color-white);
+    align-content: center;
+    padding-bottom: 5rem;
   } 
   
   .box-2 { 
     background-color: var(--color-white);
+    padding: 5rem;
+    height: 55vh;
   } 
   
   .login-form-container { 
@@ -108,8 +112,9 @@
     padding: var(--spacing-sm);
     border-radius: var(--border-radius);
     border: 1px solid var(--color-border);
-    width: var(--input-width);
+    width: 100%;
     outline: none;
+    margin-top: 1%;
   } 
   
   .login-button { 
@@ -258,4 +263,34 @@
     width: var(--input-width);
     padding: 5px;
     color: var(--color-secondary);
+  }
+
+  input[type="radio"] {
+    accent-color: var(--color-secondary);
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    padding: 10px;
+  }
+  input[type="radio"]:checked {
+    background-color: var(--color-secondary);
+    
+  }
+
+  .role-selection label {
+    color: var(--color-black);
+    margin-right: 15px;
+    cursor: pointer;
+    
+  }
+
+  .role-selection {
+    display: flex;
+    justify-content: center;
+    
+  }
+  .fa {
+    display: flex;
+    align-items: center;
+    gap: 5px;
   }
