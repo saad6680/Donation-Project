@@ -1,0 +1,7 @@
+.navbar-logo {
+    width: 7rem;
+}
+.active {
+    color: #094C3B !important;
+    font-weight: bold;
+}

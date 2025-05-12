@@ -1,0 +1,270 @@
+:root {
+    --main-color : #094C3B;
+    --secondary-color: #FFE353;
+    --p-color: #a09d9d;
+}
+/* hero-section */
+.hero-section {
+    background-image: url(../../assits/images/Rectangle\ 3.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: white;
+    padding: 6rem 0 10rem;
+    text-align: center;
+    position: relative;
+}
+
+.hero-section p {
+    color: rgb(200, 196, 196);
+}
+
+.hero-section h1 {
+    font-size: 3.5rem;
+    font-weight: bold;
+    line-height: 1.2;
+}
+
+.btn-warning {
+    border: none !important;
+    padding: 20px 30px !important;
+    margin: 10px !important;
+    border-radius: 80px !important;
+}
+
+.btn-outline-light {
+    padding: 20px 30px !important;
+    border-radius: 80px !important;
+}
+
+/* charity-services */
+
+.charity-services {
+    padding: 7rem 0;
+}
+
+.charity-services h6 {
+    color: var(--main-color);
+    font-size: 1.3rem;
+}
+.charity-paragraphs {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+.charity-services .container .text {
+    color: #000;
+    font-size: 1.7rem;
+    font-weight: 500;
+    margin-right: 10rem;
+}
+.charity-services .container p:nth-of-type(2) {
+    color: #000;
+    font-size: 1rem;
+}
+
+.service-card {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 15px 0;
+    height: 40vh;
+}
+.card-1 {
+    background-color: var(--main-color);
+    color: #fff;
+    position: relative;
+
+}
+.card-1 p, .card-2 p, .card-3 p  {
+    color: var(--p-color);
+}
+.card-1 img, .card-2 img, .card-3 img {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 10rem;
+}
+.card-2, .card-3 {
+    position: relative;
+}
+
+/* about-section */
+
+.about-section {
+    background-color: var(--secondary-color);
+    background-image: url(../../assits/images/Vector\ \(6\).png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: left center;
+    padding: 15rem 0;
+    position: relative;
+
+}
+
+.about-section .about-content {
+    display: flex;
+    flex-direction: column;
+    padding-left: 38rem;
+}
+.about-section .flower {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    width: 7rem;
+}
+.about-section .love{
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+}
+
+.about-section h2 {
+    font-size: 1.3rem;
+    color: var(--main-color);
+}
+.about-section p {
+    text-align: center;
+    
+}
+.donation-section {
+    padding: 50px 0;
+    position: relative;
+}
+.donation-section .container h5 {
+    color: var(--main-color);
+}
+.donation-section .container h4 {
+    color: #000;
+    font-size: 2rem;
+    font-weight: 500;
+}
+.btn-main-color {
+    background-color: var(--main-color) !important; 
+    color: #fff !important;
+    padding: 10px 30px !important;
+    border-radius: 80px !important;
+}
+.donation-card {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.donation-card img {
+    width: 100%;
+    object-fit: cover;
+}
+.donation-card h5 {
+    padding: 10px 0;
+    
+}
+.donation-card h6 {
+    color: var(--p-color);
+}
+.donation-card p {
+    color: var(--p-color);
+}
+.donation-card .progress {
+    height: 10px;
+    margin: 10px 0 3.4rem;
+}
+.donation-section .left {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.donation-section .right {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.newsletter-section {
+    background-color: #1A3C34;
+    color: white;
+    padding: 50px 0;
+    text-align: center;
+    padding: 8rem 0;
+    position: relative;
+}
+.subscribe-p {
+    color: var(--p-color);
+    padding-bottom: 10px;
+}
+.search {
+    background-color: #00000032;
+    border: none;
+    border-radius: 80px;
+    width: 30vw;
+    padding: 30px;
+    outline: none;
+    color: var(--secondary-color);
+}
+.newsletter-section .vec1 {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    width: 9rem;
+}
+.newsletter-section .vec3 {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+    width: 9rem;
+}
+.newsletter-section .vec2{
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    width: 7rem;
+}
+.newsletter-section .vec4{
+    position: absolute;
+    bottom: 2rem;
+    left: 2rem;
+    width: 7rem;
+}
+.newsletter-section .vec5{
+    position: absolute;
+    top: 2rem;
+    left: 20rem;
+    /* width: 7rem; */
+}
+.newsletter-section .vec6{
+    position: absolute;
+    top: 25rem;
+    right: 20rem;
+}
+
+.testimonials-section {
+    padding: 50px 0;
+}
+
+.testimonial-card {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+
+}
+.testimonial-head {
+    font-size: 1.4rem;
+    color: var(--main-color);
+}
+.testimonials-section .testimonialP {
+    color: #000;
+    font-size: 2rem;
+    font-weight: 500;
+}
+.para-testi {
+    font-size: 1rem;
+}
+.slide {
+    margin-top: 5rem;
+}
