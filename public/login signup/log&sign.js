@@ -30,13 +30,13 @@ function handleRoleChange() {
     const photoSection = document.getElementById("photo-upload-section");
     const photoInput = document.getElementById("photo");
     
-    if (role === "campaigner") {
+    if (role === "backer") {
         photoSection.style.display = "block";
         photoInput.required = true;
     } else {
         photoSection.style.display = "none";
         photoInput.required = false;
-        photoInput.value = ""; // Clear any selected file
+        photoInput.value = ""; 
     }
 }
 
@@ -70,9 +70,9 @@ function handleSignup(event) {
     }
 
     
-    if (role === "campaigner") {
+    if (role === "backer") {
         if (!photoInput.files || photoInput.files.length === 0) {
-            alert("Please upload a photo (Click on the upload photo button)");
+            alert("Please upload a photo");
             return;
         }
         
