@@ -1,0 +1,49 @@
+{
+    "campagins": [
+        {
+            "id": "7ebf",
+            "imageSrc": "../../assits/images/2.jpg",
+            "title": "john",
+            "description": "ihab",
+            "minSalary": 25000,
+            "maxSalary": 50000,
+            "role": "campaigner"
+        },
+        {
+            "id": "cb37",
+            "imageSrc": "../../assits/images/2.jpg",
+            "title": "john",
+            "description": "ihab",
+            "minSalary": 25000,
+            "maxSalary": 50000,
+            "role": "campaigner"
+        },
+        {
+            "id": "56f2",
+            "imageSrc": "../../assits/images/2.jpg",
+            "title": "john",
+            "description": "ihab",
+            "minSalary": 25000,
+            "maxSalary": 50000,
+            "role": "campaigner"
+        },
+        {
+            "id": "21e4",
+            "imageSrc": "../../assits/images/2.jpg",
+            "title": "john",
+            "description": "ihab",
+            "minSalary": 25000,
+            "maxSalary": 50000,
+            "role": "campaigner"
+        },
+        {
+            "id": "26af",
+            "imageSrc": "../../assits/images/2.jpg",
+            "title": "john",
+            "description": "ihab",
+            "minSalary": 25000,
+            "maxSalary": 50000,
+            "role": "campaigner"
+        }
+    ]
+}
