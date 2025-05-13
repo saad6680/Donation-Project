@@ -29,7 +29,7 @@ body {
     height: 100%;
     grid-gap: 0;
     grid-template-columns: 300px auto;
-    grid-template-rows: 80px auto;
+    grid-template-rows: 50px auto;
     grid-template-areas:
         "menu search"
         "menu content";
@@ -179,6 +179,7 @@ body {
         ul {
             padding: 0;
             margin: 0;
+            list-style: none;
         }
 
         li {
@@ -235,7 +236,7 @@ body {
 
 .content-wrap {
     grid-area: content;
-    padding: 3em;
+    padding: 0 3rem;
     overflow: auto;
 
     .content-head {
@@ -278,7 +279,7 @@ body {
     }
 
     .info-boxes {
-        padding: 3em 0 2em;
+        padding: 0em 0 2em;
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
         grid-gap: 2em;
@@ -418,6 +419,98 @@ body {
                     }
                 }
             }
+        }
+    }
+}
+
+@media (max-width: 767px) {
+    .dashboard {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+        grid-template-areas:
+            "menu"
+            "search"
+            "content";
+    }
+
+    .search-wrap {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1em;
+    }
+
+    .menu-wrap {
+        border-right: none;
+        border-bottom: 1px solid $bgDark;
+
+        .user {
+            padding: 1em;
+        }
+
+        nav {
+            padding: 0 1em;
+
+            section {
+                padding: 2em 0 0;
+            }
+        }
+    }
+
+    .content-wrap {
+        padding: 1.5em;
+
+        .content-head {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1em;
+
+            h1 {
+                font-size: 1.25em;
+            }
+
+            .action button {
+                width: 100%;
+                padding: 1em;
+            }
+        }
+
+        .info-boxes,
+        .person-boxes {
+            grid-template-columns: 1fr;
+        }
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .dashboard {
+        grid-template-columns: 200px auto;
+    }
+
+    .menu-wrap {
+        .user {
+            padding: 0 1.5em;
+        }
+
+        nav {
+            padding: 0 1.5em;
+        }
+    }
+
+    .search-wrap {
+        padding: 0 1.5em;
+    }
+
+    .content-wrap {
+        padding: 2em;
+    }
+}
+
+@media (min-width: 1025px) {
+    .content-wrap {
+
+        .info-boxes,
+        .person-boxes {
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
         }
     }
 }

@@ -12,6 +12,7 @@ body {
   font-size: 16px;
   line-height: 120%;
   font-family: "Open Sans", Helvetica, sans-serif;
+  background-color: #eff1f8;;
 }
 
 .dashboard {
@@ -20,7 +21,7 @@ body {
   height: 100%;
   grid-gap: 0;
   grid-template-columns: 300px auto;
-  grid-template-rows: 80px auto;
+  grid-template-rows: 50px auto;
   grid-template-areas: "menu search" "menu content";
 }
 
@@ -140,6 +141,7 @@ body {
 .menu-wrap nav ul {
   padding: 0;
   margin: 0;
+  list-style: none;
 }
 .menu-wrap nav li {
   margin: 1em 0 0;
@@ -180,7 +182,7 @@ body {
 
 .content-wrap {
   grid-area: content;
-  padding: 3em;
+  padding: 0 3rem;
   overflow: auto;
 }
 .content-wrap .content-head {
@@ -216,7 +218,7 @@ body {
   transition: none;
 }
 .content-wrap .info-boxes {
-  padding: 3em 0 2em;
+  padding: 0em 0 2em;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   grid-gap: 2em;
@@ -328,4 +330,72 @@ body {
 }
 .content-wrap .person-boxes .person-box .box-actions button:hover svg path, .content-wrap .person-boxes .person-box .box-actions button:hover svg circle {
   fill: #2b3a60;
+}
+
+@media (max-width: 767px) {
+  .dashboard {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    grid-template-areas: "menu" "search" "content";
+  }
+  .search-wrap {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1em;
+  }
+  .menu-wrap {
+    border-right: none;
+    border-bottom: 1px solid #ede8f0;
+  }
+  .menu-wrap .user {
+    padding: 1em;
+  }
+  .menu-wrap nav {
+    padding: 0 1em;
+  }
+  .menu-wrap nav section {
+    padding: 2em 0 0;
+  }
+  .content-wrap {
+    padding: 1.5em;
+  }
+  .content-wrap .content-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1em;
+  }
+  .content-wrap .content-head h1 {
+    font-size: 1.25em;
+  }
+  .content-wrap .content-head .action button {
+    width: 100%;
+    padding: 1em;
+  }
+  .content-wrap .info-boxes,
+  .content-wrap .person-boxes {
+    grid-template-columns: 1fr;
+  }
+}
+@media (min-width: 768px) and (max-width: 1024px) {
+  .dashboard {
+    grid-template-columns: 200px auto;
+  }
+  .menu-wrap .user {
+    padding: 0 1.5em;
+  }
+  .menu-wrap nav {
+    padding: 0 1.5em;
+  }
+  .search-wrap {
+    padding: 0 1.5em;
+  }
+  .content-wrap {
+    padding: 2em;
+  }
+}
+@media (min-width: 1025px) {
+  .content-wrap .info-boxes,
+  .content-wrap .person-boxes {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
 }/*# sourceMappingURL=dashboard.css.map */

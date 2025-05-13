@@ -1,8 +1,9 @@
 :root {
-    --main-color : #094C3B;
+    --main-color: #094C3B;
     --secondary-color: #FFE353;
     --p-color: #a09d9d;
 }
+
 /* hero-section */
 .hero-section {
     background-image: url(../../assits/images/Rectangle\ 3.png);
@@ -47,18 +48,21 @@
     color: var(--main-color);
     font-size: 1.3rem;
 }
+
 .charity-paragraphs {
     display: flex;
     justify-content: space-between;
     align-items: center;
 
 }
+
 .charity-services .container .text {
     color: #000;
     font-size: 1.7rem;
     font-weight: 500;
     margin-right: 10rem;
 }
+
 .charity-services .container p:nth-of-type(2) {
     color: #000;
     font-size: 1rem;
@@ -74,22 +78,31 @@
     margin: 15px 0;
     height: 40vh;
 }
+
 .card-1 {
     background-color: var(--main-color);
     color: #fff;
     position: relative;
 
 }
-.card-1 p, .card-2 p, .card-3 p  {
+
+.card-1 p,
+.card-2 p,
+.card-3 p {
     color: var(--p-color);
 }
-.card-1 img, .card-2 img, .card-3 img {
+
+.card-1 img,
+.card-2 img,
+.card-3 img {
     position: absolute;
     right: 0;
     bottom: 0;
     width: 10rem;
 }
-.card-2, .card-3 {
+
+.card-2,
+.card-3 {
     position: relative;
 }
 
@@ -111,13 +124,15 @@
     flex-direction: column;
     padding-left: 38rem;
 }
+
 .about-section .flower {
     position: absolute;
     top: 2rem;
     right: 2rem;
     width: 7rem;
 }
-.about-section .love{
+
+.about-section .love {
     position: absolute;
     bottom: 2rem;
     right: 2rem;
@@ -127,28 +142,34 @@
     font-size: 1.3rem;
     color: var(--main-color);
 }
+
 .about-section p {
     text-align: center;
-    
+
 }
+
 .donation-section {
     padding: 50px 0;
     position: relative;
 }
+
 .donation-section .container h5 {
     color: var(--main-color);
 }
+
 .donation-section .container h4 {
     color: #000;
     font-size: 2rem;
     font-weight: 500;
 }
+
 .btn-main-color {
-    background-color: var(--main-color) !important; 
+    background-color: var(--main-color) !important;
     color: #fff !important;
     padding: 10px 30px !important;
     border-radius: 80px !important;
 }
+
 .donation-card {
     border: 1px solid #ddd;
     border-radius: 10px;
@@ -163,30 +184,37 @@
     width: 100%;
     object-fit: cover;
 }
+
 .donation-card h5 {
     padding: 10px 0;
-    
+
 }
+
 .donation-card h6 {
     color: var(--p-color);
 }
+
 .donation-card p {
     color: var(--p-color);
 }
+
 .donation-card .progress {
     height: 10px;
     margin: 10px 0 3.4rem;
 }
+
 .donation-section .left {
     position: absolute;
     top: 0;
     left: 0;
 }
+
 .donation-section .right {
     position: absolute;
     top: 0;
     right: 0;
 }
+
 .newsletter-section {
     background-color: #1A3C34;
     color: white;
@@ -195,10 +223,12 @@
     padding: 8rem 0;
     position: relative;
 }
+
 .subscribe-p {
     color: var(--p-color);
     padding-bottom: 10px;
 }
+
 .search {
     background-color: #00000032;
     border: none;
@@ -208,63 +238,255 @@
     outline: none;
     color: var(--secondary-color);
 }
+
 .newsletter-section .vec1 {
     position: absolute;
     top: 2rem;
     right: 2rem;
     width: 9rem;
 }
+
 .newsletter-section .vec3 {
     position: absolute;
     bottom: 2rem;
     right: 2rem;
     width: 9rem;
 }
-.newsletter-section .vec2{
+
+.newsletter-section .vec2 {
     position: absolute;
     top: 2rem;
     left: 2rem;
     width: 7rem;
 }
-.newsletter-section .vec4{
+
+.newsletter-section .vec4 {
     position: absolute;
     bottom: 2rem;
     left: 2rem;
     width: 7rem;
 }
-.newsletter-section .vec5{
+
+.newsletter-section .vec5 {
     position: absolute;
     top: 2rem;
     left: 20rem;
     /* width: 7rem; */
 }
-.newsletter-section .vec6{
+
+.newsletter-section .vec6 {
     position: absolute;
     top: 25rem;
     right: 20rem;
 }
 
-.testimonials-section {
-    padding: 50px 0;
+body {
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 23px;
+    font-family: "Poppins", sans-serif;
 }
 
-.testimonial-card {
-    border: 1px solid #ddd;
-    border-radius: 10px;
+ul {
+    list-style-type: none;
+}
 
+a,
+a:hover {
+    text-decoration: none;
 }
-.testimonial-head {
-    font-size: 1.4rem;
-    color: var(--main-color);
+
+body {
+    font-family: "Montserrat", sans-serif;
 }
-.testimonials-section .testimonialP {
-    color: #000;
-    font-size: 2rem;
+
+body .testimonial {
+    padding: 100px 0;
+}
+
+body .testimonial .row .tabs {
+    all: unset;
+    margin-right: 50px;
+    display: flex;
+    flex-direction: column;
+}
+
+body .testimonial .row .tabs li {
+    all: unset;
+    display: block;
+    position: relative;
+}
+
+body .testimonial .row .tabs li.active::before {
+    position: absolute;
+    content: "";
+    width: 50px;
+    height: 50px;
+    background-color: #71b85f;
+    border-radius: 50%;
+}
+
+body .testimonial .row .tabs li.active::after {
+    position: absolute;
+    content: "";
+    width: 30px;
+    height: 30px;
+    background-color: #71b85f;
+    border-radius: 50%;
+}
+
+body .testimonial .row .tabs li:nth-child(1) {
+    align-self: flex-end;
+}
+
+body .testimonial .row .tabs li:nth-child(1)::before {
+    left: 64%;
+    bottom: -50px;
+}
+
+body .testimonial .row .tabs li:nth-child(1)::after {
+    left: 97%;
+    bottom: -81px;
+}
+
+body .testimonial .row .tabs li:nth-child(1) figure img {
+    margin-left: auto;
+}
+
+body .testimonial .row .tabs li:nth-child(2) {
+    align-self: flex-start;
+}
+
+body .testimonial .row .tabs li:nth-child(2)::before {
+    right: -65px;
+    top: 50%;
+}
+
+body .testimonial .row .tabs li:nth-child(2)::after {
+    bottom: 101px;
+    border-radius: 50%;
+    right: -120px;
+}
+
+body .testimonial .row .tabs li:nth-child(2) figure img {
+    margin-right: auto;
+    max-width: 300px;
+    width: 100%;
+    margin-top: -50px;
+}
+
+body .testimonial .row .tabs li:nth-child(3) {
+    align-self: flex-end;
+}
+
+body .testimonial .row .tabs li:nth-child(3)::before {
+    right: -10px;
+    top: -66%;
+}
+
+body .testimonial .row .tabs li:nth-child(3)::after {
+    top: -130px;
+    border-radius: 50%;
+    right: -46px;
+}
+
+body .testimonial .row .tabs li:nth-child(3) figure img {
+    margin-left: auto;
+    margin-top: -50px;
+}
+
+body .testimonial .row .tabs li:nth-child(3):focus {
+    border: 10px solid red;
+}
+
+body .testimonial .row .tabs li figure {
+    position: relative;
+}
+
+body .testimonial .row .tabs li figure img {
+    display: block;
+}
+
+body .testimonial .row .tabs li figure::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    border: 4px solid #dff9d9;
+    border-radius: 50%;
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+    -webkit-transition: 0.3s;
+    -o-transition: 0.3s;
+    transition: 0.3s;
+}
+
+body .testimonial .row .tabs li figure:hover::after {
+    -webkit-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    transform: scale(1.1);
+}
+
+body .testimonial .row .tabs.carousel-indicators li.active figure::after {
+    -webkit-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    transform: scale(1.1);
+}
+
+body .testimonial .row .carousel>h3 {
+    font-size: 20px;
+    line-height: 1.45;
+    color: rgba(0, 0, 0, 0.5);
+    font-weight: 600;
+    margin-bottom: 0;
+}
+
+body .testimonial .row .carousel h1 {
+    font-size: 40px;
+    line-height: 1.225;
+    margin-top: 23px;
+    font-weight: 700;
+    margin-bottom: 0;
+}
+
+body .testimonial .row .carousel .carousel-indicators {
+    all: unset;
+    padding-top: 43px;
+    display: flex;
+    list-style: none;
+}
+
+body .testimonial .row .carousel .carousel-indicators li {
+    background: #000;
+    background-clip: padding-box;
+    height: 2px;
+}
+
+body .testimonial .row .carousel .carousel-inner .carousel-item .quote-wrapper {
+    margin-top: 42px;
+}
+
+body .testimonial .row .carousel .carousel-inner .carousel-item .quote-wrapper p {
+    font-size: 18px;
+    line-height: 1.72222;
     font-weight: 500;
+    color: rgba(0, 0, 0, 0.7);
 }
-.para-testi {
-    font-size: 1rem;
+
+body .testimonial .row .carousel .carousel-inner .carousel-item .quote-wrapper h3 {
+    color: #000;
+    font-weight: 700;
+    margin-top: 37px;
+    font-size: 20px;
+    line-height: 1.45;
+    text-transform: uppercase;
 }
-.slide {
-    margin-top: 5rem;
+
+@media only screen and (max-width: 1200px) {
+    body .testimonial .row .tabs {
+        margin-right: 25px;
+    }
 }
