@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Signup</title>
+    <link rel="stylesheet" href="log&sign.css">
+</head>
+<body>
+    <div class="container">
+        <!--Data or Content-->
+        <div class="box-1">
+            <div class="content-holder">
+                <h2>Hello!</h2>
+                <button class="button-1" onclick="signup()">Sign up</button>
+                <button class="button-2" onclick="login()">Login</button>
+            </div>
+        </div>
+        
+        <!--Forms-->
+        <div class="box-2">
+            <form class="login-form-container" id="loginForm" onsubmit="return handleLogin(event)">
+                <h1>Login</h1>
+                <input type="text" placeholder="Username" id="loginUsername" class="input-field" required>
+                <br><br>
+                <input type="password" placeholder="Password" id="loginPassword" class="input-field" required>
+                <br><br>
+                <button class="login-button" type="submit">Login</button>
+            </form>
+
+            <form class="signup-form-container" id="signupForm" onsubmit="return handleSignup(event)">
+                <h1>Sign Up</h1>
+                <input type="text" placeholder="Username" id="username" class="input-field" required>
+                <br><br>
+                <input type="email" placeholder="Email" id="email" class="input-field" required>
+                <br><br>
+                <input type="password" placeholder="Password" id="password" class="input-field" required>
+                <br><br>
+                <input type="password" placeholder="Confirm Password" id="confirmPassword" class="input-field" required>
+                <br><br>
+                <div class="role-selection">
+                    <div class="fa">
+                    <input type="radio" name="role" id="backer" value="backer" required onchange="handleRoleChange()">
+                    <label style="margin-right: 5rem;" for="backer">Backer</label>
+                </div>
+                <div class="fa">
+                    <input type="radio" name="role" id="campaigner" value="campaigner" onchange="handleRoleChange()">
+                    <label for="campaigner">Campaigner</label>
+                </div>
+                </div>
+                <br>
+                <div id="photo-upload-section" style="display: none;">
+                    <label for="photo"> Upload Photo your photo:</label>
+                    <input type="file" id="photo" accept="image/*" class="input-field">
+                    
+                </div>
+                <button class="signup-button" type="submit">Sign Up</button>
+            </form>
+        </div>
+    </div>
+    <script src="log&sign.js"></script>
+</body>
+</html>
