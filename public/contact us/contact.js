@@ -45,7 +45,6 @@ document.addEventListener("DOMContentLoaded", function() {
             }
 
             if (isValid) {
-                
                 const formData = {
                     fullName: fullName.value.trim(),
                     emailAddress: emailAddress.value.trim(),
@@ -54,39 +53,32 @@ document.addEventListener("DOMContentLoaded", function() {
                     apiKey: "" 
                 };
 
-                
-                const xhr = new XMLHttpRequest();
-                const fakeEndpoint = "https://jsonplaceholder.typicode.com/posts"; 
+                const fakeEndpoint = "https://jsonplaceholder.typicode.com/posts";
 
-                xhr.open("POST", fakeEndpoint, true);
-                xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-
-                xhr.onreadystatechange = function() {
-                    if (xhr.readyState === 4) { 
-                        if (xhr.status === 200 || xhr.status === 201) { 
-                            
-
-                            console.log("Form submitted successfully:", xhr.responseText);
-                            showFeedback(contactForm.querySelector("button[type='submit']"), "Message sent successfully!", true);
-                            contactForm.reset(); 
-                        } else {
-                            
-                            console.error("Form submission error:", xhr.status, xhr.responseText);
-                            showFeedback(contactForm.querySelector("button[type='submit']"), "An error occurred. Please try again.", false);
-                        }
+                fetch(fakeEndpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
                     }
-                };
-
-                xhr.onerror = function() {
-                    console.error("Network error during form submission.");
-                    showFeedback(contactForm.querySelector("button[type='submit']"), "A network error occurred. Please check your connection.", false);
-                };
-                
-                console.log("Submitting data:", JSON.stringify(formData));
-                xhr.send(JSON.stringify(formData));
+                    return response.json();
+                })
+                .then(data => {
+                    console.log("Form submitted successfully:", data);
+                    showFeedback(contactForm.querySelector("button[type='submit']"), "Message sent successfully!", true);
+                    contactForm.reset();
+                })
+                .catch(error => {
+                    console.error("Form submission error:", error);
+                    showFeedback(contactForm.querySelector("button[type='submit']"), "An error occurred. Please try again.", false);
+                });
 
             } else {
-                
                 console.log("Form validation failed.");
             }
         });
