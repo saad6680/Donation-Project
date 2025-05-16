@@ -1,4 +1,10 @@
 document.addEventListener("DOMContentLoaded", function() {
+    // add footer in index.html
+fetch('../Footer/footer.html')
+    .then(response => response.text())
+    .then(data => {
+        document.getElementById('footer-placeholder').innerHTML = data;
+    });
     const contactForm = document.getElementById("contactForm");
 
     if (contactForm) {

@@ -10,10 +10,41 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
     <link rel="stylesheet" href="contact.css">
+    <link rel="stylesheet" href="../Navbar/navbar.css">
+    <link rel="stylesheet" href="../Footer/footer.css">
    
 </head>
 <body>
-
+    <nav class="navbar navbar-expand-lg bg-body-light">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <img class="navbar-logo" src="../../assits/images/Logo txt.png" alt="Raha logo">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="../index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link campagins" href="../Campagins/campagins.html">Campagins</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contact</a>
+                </li>
+            </ul>
+            <button class="btn btn-success" type="submit">
+                    <a class="inlineA" href="../login signup/log&sign.html">Login</a>
+            </button>
+        </div>
+    </div>
+</nav>
     <!-- Header Section -->
     <header class="header-section">
         <div class="container">
@@ -27,7 +58,6 @@
    <!-- Main  -->
     <main class="container mt-5 mb-5">
         <div class="row">
-           
             <div class="col-lg-7">
                 <section class="contact-info-section mb-5">
                     <h2>Contact Us</h2>
@@ -97,7 +127,7 @@
         </section>
     </main>
 
-    
+    <div id="footer-placeholder"></div>
     <script src="contact.js"></script>
 </body>
 </html>

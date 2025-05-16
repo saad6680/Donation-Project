@@ -109,42 +109,36 @@
       "maxSalary": "50000",
       "role": "campaigner",
       "isActive": true
-    }
-  ],
-  "acceptedCampaigns": [
-    {
-      "id": "7e41",
-      "campaignId": "3e16"
     },
     {
-      "id": "b108",
-      "campaignId": "3e16"
+      "id": "1aa1",
+      "image": "C:\\fakepath\\08453256-12b6-474d-89ac-2a1c8713a644.png",
+      "title": "d",
+      "description": "d",
+      "minSalary": "24",
+      "maxSalary": "728",
+      "role": "campaigner",
+      "isActive": true
     },
     {
-      "id": "9a13",
-      "campaignId": "3e16"
+      "id": "4dbf",
+      "image": "C:\\fakepath\\jo.jpg",
+      "title": "tt",
+      "description": "tt",
+      "minSalary": "77",
+      "maxSalary": "77",
+      "role": "campaigner",
+      "isActive": true
     },
     {
-      "id": "4844",
-      "campaignId": "3e16"
-    },
-    {
-      "id": "3393",
-      "campaignId": "3e16"
-    },
-    {
-      "id": "d586",
-      "campaignId": "77c6"
-    }
-  ],
-  "rejectedCampaigns": [
-    {
-      "id": "2937",
-      "campaignId": "3e16"
-    },
-    {
-      "id": "81fc",
-      "campaignId": "3e16"
+      "id": "bcbe",
+      "image": "C:\\fakepath\\2965e679-06e0-4262-83fa-def2d676d079.png",
+      "title": "dvs",
+      "description": "ds v",
+      "minSalary": "5472",
+      "maxSalary": "25748",
+      "role": "campaigner",
+      "isActive": true
     }
   ]
 }
