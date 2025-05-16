@@ -116,3 +116,46 @@ function handleLogin(event) {
     console.log("Login Data:", { username, password });
     alert("Login successful!");
 }
+
+
+document.getElementById("signupForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    
+    const username = document.getElementById("username").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    const role = document.querySelector('input[name="role"]:checked')?.value;
+    const photoInput = document.getElementById("photo");
+
+    const newUser = {
+        username,
+        email,
+        password,
+        role,
+        hasPhoto: photoInput?.files?.length > 0,
+        photo: photoInput.files[0].src
+    }
+
+    fetch("http://localhost:3000/api/users", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(newUser)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("User created:", data);
+        alert("Signup successful!");
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert("Signup failed. Please try again.");
+    });
+
+    document.getElementById("signupForm").reset();
+    
+    
+    
+        
+})
