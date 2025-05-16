@@ -285,6 +285,7 @@
   }
 
   .role-selection {
+    margin-bottom: 10%;
     display: flex;
     justify-content: center;
     

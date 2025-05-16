@@ -56,7 +56,7 @@ function validatePassword(password) {
     errorContainers.forEach((container) => (container.textContent = ""));
   }
   
-  // Form toggling
+
   function showSignupForm() {
     document.querySelector(".login-form-container").style.display = "none";
     document.querySelector(".signup-form-container").style.display = "block";
@@ -71,14 +71,14 @@ function validatePassword(password) {
     document.querySelector(".button-1").style.display = "block";
   }
   
-  // Add a submission lock
+ 
   let isSubmitting = false;
 
-  // Signup handler
+ 
   async function handleSignup(event) {
     event.preventDefault();
     
-    // Prevent double submission
+    
     if (isSubmitting) {
       return;
     }
@@ -179,7 +179,6 @@ function validatePassword(password) {
     displayError("login-error", "Login successful!", "green");
   }
   
-  // Remove any existing event listeners
   const signupForm = document.getElementById("signupForm");
   const loginForm = document.getElementById("loginForm");
   const button1 = document.querySelector(".button-1");
