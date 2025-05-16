@@ -12,6 +12,10 @@
         text-decoration: none;
         color: #000;
     }
+    .bBtn{
+        color: #fff;
+        text-decoration: none;
+    }
     p {
         display: none;
     }
@@ -43,7 +47,7 @@
                 </li>
             </ul>
             <form class="d-flex ms-auto" role="btn">
-                <button class="btn btn-success" type="submit"><a href="../addCampaign/addCampaign.html">Add a Campaign</a></button>
+                <button class="btn btn-success" type="submit"><a class="bBtn" href="../addCampaign/addCampaign.html">Add a Campaign</a></button>
             </form>
         </div>
     </div>
@@ -54,27 +58,22 @@
             <div class="form-group">
                 <label for="imageSrc">*Upload Image</label>
                 <input type="file" class="form-control" id="imageSrc" accept="image/*">
-                <p style="color: red;">please Enter your Image</p>
             </div>
             <div class="form-group">
                 <label for="title">*Title</label>
                 <input type="text" class="form-control" id="title" placeholder="Enter campaign title">
-                <p style="color: red;">please Enter your Image</p>
             </div>
             <div class="form-group">
                 <label for="description">*Description</label>
                 <textarea class="form-control" id="description" placeholder="Enter description"></textarea>
-                <p style="color: red;">please Enter your Image</p>
             </div>
             <div class="form-group">
                 <label for="minSalary">*Minimum Salary</label>
                 <input type="number" class="form-control" id="minSalary" placeholder="Enter minimum salary">
-                <p style="color: red;">please Enter your Image</p>
             </div>
             <div class="form-group">
                 <label for="maxSalary">*Maximum Salary</label>
                 <input type="number" class="form-control" id="maxSalary" placeholder="Enter maximum salary">
-                <p style="color: red;">please Enter your Image</p>
             </div>
             <button id="campSubmit" type="submit" class="btn btn-primary">Submit Campaign</button>
         </form>

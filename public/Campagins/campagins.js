@@ -37,7 +37,7 @@ function displayAcceptedCampaigns() {
                 console.log('Fetched campaign data:', campaign);
                 if (!container.querySelector(`[data-id="${campaign.id}"]`)) {
                     const campaignDiv = document.createElement('div');
-                    campaignDiv.classList.add('col-md-3', 'person-box', 'mb-4');
+                    campaignDiv.classList.add('col-md-3', 'person-box', 'mb-4',);
                     campaignDiv.style.width = '20rem';
                     campaignDiv.setAttribute('data-id', campaign.id);
                     campaignDiv.innerHTML = `
@@ -46,11 +46,10 @@ function displayAcceptedCampaigns() {
                             <h5 class="card-title mb-3">${campaign.title}</h5>
                             <p class="card-text">${campaign.description}</p>
                             <p> <b style="color: black;">$${campaign.minSalary}</b> raised of $${campaign.maxSalary} goal</p>
-                            <div class="progress">
+                            <div class="progress mb-5">
                                 <div class="progress-bar bg-success" style="width: ${(campaign.minSalary / campaign.maxSalary) * 100}%"></div>
                             </div>
-                            <p class="mt-3">Role: ${campaign.role}</p>
-                            <p class="mt-3 text-success">Campaign Accepted!</p>
+                            <button id='donate-${campaign.id} class='btn btn-warning mb-3'>Donate Now</button>
                         </div>
                     `;
                     container.appendChild(campaignDiv);
@@ -61,7 +60,9 @@ function displayAcceptedCampaigns() {
             .catch(error => console.error(`Error fetching campaign ${campaignId}:`, error));
     });
 }
-
+function handleDonation(campaignId){
+    // here when clk on donate now
+}
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM loaded, calling displayAcceptedCampaigns');
     displayAcceptedCampaigns();
