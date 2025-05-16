@@ -1,49 +1,150 @@
 {
-    "campagins": [
-        {
-            "id": "7ebf",
-            "imageSrc": "../../assits/images/2.jpg",
-            "title": "john",
-            "description": "ihab",
-            "minSalary": 25000,
-            "maxSalary": 50000,
-            "role": "campaigner"
-        },
-        {
-            "id": "cb37",
-            "imageSrc": "../../assits/images/2.jpg",
-            "title": "john",
-            "description": "ihab",
-            "minSalary": 25000,
-            "maxSalary": 50000,
-            "role": "campaigner"
-        },
-        {
-            "id": "56f2",
-            "imageSrc": "../../assits/images/2.jpg",
-            "title": "john",
-            "description": "ihab",
-            "minSalary": 25000,
-            "maxSalary": 50000,
-            "role": "campaigner"
-        },
-        {
-            "id": "21e4",
-            "imageSrc": "../../assits/images/2.jpg",
-            "title": "john",
-            "description": "ihab",
-            "minSalary": 25000,
-            "maxSalary": 50000,
-            "role": "campaigner"
-        },
-        {
-            "id": "26af",
-            "imageSrc": "../../assits/images/2.jpg",
-            "title": "john",
-            "description": "ihab",
-            "minSalary": 25000,
-            "maxSalary": 50000,
-            "role": "campaigner"
-        }
-    ]
+  "campaigns": [
+    {
+      "id": "3e16",
+      "image": "C:\\fakepath\\2965e679-06e0-4262-83fa-def2d676d079.png",
+      "title": "gf",
+      "description": "gf",
+      "minSalary": "2",
+      "maxSalary": "5",
+      "role": "campaigner",
+      "isActive": true
+    },
+    {
+      "id": "77c6",
+      "image": "C:\\fakepath\\jo.jpg",
+      "title": "test",
+      "description": "f",
+      "minSalary": "8",
+      "maxSalary": "10",
+      "role": "campaigner",
+      "isActive": true
+    },
+    {
+      "id": "5bda",
+      "image": "C:\\fakepath\\1745946286760.jpeg",
+      "title": "4444444444",
+      "description": "444444444",
+      "minSalary": "444444",
+      "maxSalary": "44444444444",
+      "role": "campaigner",
+      "isActive": true
+    },
+    {
+      "id": "038d",
+      "image": "C:\\fakepath\\Container.png",
+      "title": "555555555",
+      "description": "5555555555",
+      "minSalary": "5",
+      "maxSalary": "55",
+      "role": "campaigner",
+      "isActive": true
+    },
+    {
+      "id": "cd7f",
+      "image": "C:\\fakepath\\08453256-12b6-474d-89ac-2a1c8713a644.png",
+      "title": "222",
+      "description": "22",
+      "minSalary": "22",
+      "maxSalary": "222",
+      "role": "campaigner",
+      "isActive": true
+    },
+    {
+      "id": "d93e",
+      "image": "C:\\fakepath\\Container.png",
+      "title": "33",
+      "description": "33",
+      "minSalary": "33",
+      "maxSalary": "333",
+      "role": "campaigner",
+      "isActive": true
+    },
+    {
+      "id": "cb3c",
+      "image": "C:\\fakepath\\jo.jpg",
+      "title": "education",
+      "description": "education education education",
+      "minSalary": "25000",
+      "maxSalary": "50000",
+      "role": "campaigner",
+      "isActive": true
+    },
+    {
+      "id": "7218",
+      "image": "C:\\fakepath\\اقرار.jpg",
+      "title": "invest ",
+      "description": "invest vinvest invest ",
+      "minSalary": "1000",
+      "maxSalary": "10000",
+      "role": "campaigner",
+      "isActive": true
+    },
+    {
+      "id": "5859",
+      "image": "C:\\fakepath\\08453256-12b6-474d-89ac-2a1c8713a644.png",
+      "title": "salama",
+      "description": "salama ali",
+      "minSalary": "25000",
+      "maxSalary": "50000",
+      "role": "campaigner",
+      "isActive": true
+    },
+    {
+      "id": "2eba",
+      "image": "C:\\fakepath\\1745946286760.jpeg",
+      "title": "john",
+      "description": "john",
+      "minSalary": "626",
+      "maxSalary": "6526",
+      "role": "campaigner",
+      "isActive": true
+    },
+    {
+      "id": "283e",
+      "image": "C:\\fakepath\\IMG-20250429-WA0054.jpg",
+      "title": "mosad",
+      "description": "mosad",
+      "minSalary": "25000",
+      "maxSalary": "50000",
+      "role": "campaigner",
+      "isActive": true
+    }
+  ],
+  "acceptedCampaigns": [
+    {
+      "id": "7e41",
+      "campaignId": "3e16"
+    },
+    {
+      "id": "b108",
+      "campaignId": "3e16"
+    },
+    {
+      "id": "9a13",
+      "campaignId": "3e16"
+    },
+    {
+      "id": "4844",
+      "campaignId": "3e16"
+    },
+    {
+      "id": "3393",
+      "campaignId": "3e16"
+    },
+    {
+      "id": "d586",
+      "campaignId": "77c6"
+    }
+  ],
+  "rejectedCampaigns": [
+    {
+      "id": "2937",
+      "campaignId": "3e16"
+    },
+    {
+      "id": "81fc",
+      "campaignId": "3e16"
+    }
+  ]
 }

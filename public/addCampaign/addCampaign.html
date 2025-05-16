@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Campaign</title>
+    <link rel="stylesheet" href="../Footer/footer.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<style>
+    a {
+        text-decoration: none;
+        color: #000;
+    }
+    p {
+        display: none;
+    }
+
+</style>
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-light">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <img class="navbar-logo" src="../../assits/images/Logo txt.png" alt="Raha logo">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link " aria-current="page" href="../index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link campagins" href="./Campagins/campagins.html">Campagins</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contact</a>
+                </li>
+            </ul>
+            <form class="d-flex ms-auto" role="btn">
+                <button class="btn btn-success" type="submit"><a href="../addCampaign/addCampaign.html">Add a Campaign</a></button>
+            </form>
+        </div>
+    </div>
+</nav>
+    <div class="container mt-5">
+        <h2>Create New Campaign</h2>
+        <form id="campaignForm">
+            <div class="form-group">
+                <label for="imageSrc">*Upload Image</label>
+                <input type="file" class="form-control" id="imageSrc" accept="image/*">
+                <p style="color: red;">please Enter your Image</p>
+            </div>
+            <div class="form-group">
+                <label for="title">*Title</label>
+                <input type="text" class="form-control" id="title" placeholder="Enter campaign title">
+                <p style="color: red;">please Enter your Image</p>
+            </div>
+            <div class="form-group">
+                <label for="description">*Description</label>
+                <textarea class="form-control" id="description" placeholder="Enter description"></textarea>
+                <p style="color: red;">please Enter your Image</p>
+            </div>
+            <div class="form-group">
+                <label for="minSalary">*Minimum Salary</label>
+                <input type="number" class="form-control" id="minSalary" placeholder="Enter minimum salary">
+                <p style="color: red;">please Enter your Image</p>
+            </div>
+            <div class="form-group">
+                <label for="maxSalary">*Maximum Salary</label>
+                <input type="number" class="form-control" id="maxSalary" placeholder="Enter maximum salary">
+                <p style="color: red;">please Enter your Image</p>
+            </div>
+            <button id="campSubmit" type="submit" class="btn btn-primary">Submit Campaign</button>
+        </form>
+    </div>
+    <div id="footer-placeholder"></div>
+    <script src="addCompaign.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+
+</body>
+</html>
