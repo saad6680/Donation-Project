@@ -1,0 +1,12 @@
+{
+    "name": "donation-project",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "json-server --watch user_info.json --port 3001"
+    },
+    "dependencies": {
+        "json-server": "^0.17.4"
+    }
+}

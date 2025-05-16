@@ -1,0 +1,25 @@
+{
+  "users": [
+    {
+      "username": "jeperiw",
+      "email": "likyz@mailinator.com",
+      "password": "Pa$$w0rd!",
+      "role": "campaigner",
+      "id": 1
+    },
+    {
+      "username": "havyfi",
+      "email": "temitemiti@mailinator.com",
+      "password": "Pa$$w0rd!",
+      "role": "campaigner",
+      "id": 2
+    },
+    {
+      "username": "jhon",
+      "email": "vunakemo@mailinator.com",
+      "password": "Pa$$w0rd!",
+      "role": "backer",
+      "id": 3
+    }
+  ]
+}

@@ -16,146 +16,191 @@ function login()
 
 }
 
+// Validation functions
 function validatePassword(password) {
-    return password.length >= 8 && password.length <= 15;
-}
-
-function validateEmail(email) {
+    const minLength = 8;
+    const maxLength = 15;
+    const hasNumber = /\d/;
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/;
+    return (
+      password.length >= minLength &&
+      password.length <= maxLength &&
+      hasNumber.test(password) &&
+      hasSpecialChar.test(password)
+    );
+  }
+  
+  function validateEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
-}
-
-function handleRoleChange() {
-    const role = document.querySelector('input[name="role"]:checked')?.value;
-    const photoSection = document.getElementById("photo-upload-section");
-    const photoInput = document.getElementById("photo");
-    
-    if (role === "backer") {
-        photoSection.style.display = "block";
-        photoInput.required = true;
+  }
+  
+  function validateImageFile(file) {
+    const validTypes = ["image/jpeg", "image/png", "image/gif"];
+    return file && validTypes.includes(file.type);
+  }
+  
+  // UI error handling
+  function displayError(containerId, message, color = "red") {
+    const errorContainer = document.getElementById(containerId);
+    if (errorContainer) {
+      errorContainer.textContent = message;
+      errorContainer.style.color = color;
     } else {
-        photoSection.style.display = "none";
-        photoInput.required = false;
-        photoInput.value = ""; 
+      alert(message);
     }
-}
+  }
+  
+  function clearErrors() {
+    const errorContainers = document.querySelectorAll(".error-message");
+    errorContainers.forEach((container) => (container.textContent = ""));
+  }
+  
+  // Form toggling
+  function showSignupForm() {
+    document.querySelector(".login-form-container").style.display = "none";
+    document.querySelector(".signup-form-container").style.display = "block";
+    document.querySelector(".button-1").style.display = "none";
+    document.querySelector(".button-2").style.display = "block";
+  }
+  
+  function showLoginForm() {
+    document.querySelector(".signup-form-container").style.display = "none";
+    document.querySelector(".login-form-container").style.display = "block";
+    document.querySelector(".button-2").style.display = "none";
+    document.querySelector(".button-1").style.display = "block";
+  }
+  
+  // Add a submission lock
+  let isSubmitting = false;
 
-function handleSignup(event) {
+  // Signup handler
+  async function handleSignup(event) {
     event.preventDefault();
     
+    // Prevent double submission
+    if (isSubmitting) {
+      return;
+    }
+    
+    isSubmitting = true;
+    clearErrors();
+  
     const username = document.getElementById("username").value.trim();
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value;
     const confirmPassword = document.getElementById("confirmPassword").value;
     const role = document.querySelector('input[name="role"]:checked')?.value;
-    const photoInput = document.getElementById("photo");
-
+    
+  
+    // Validation
     if (!username) {
-        alert("Please enter a username");
-        return;
+      displayError("signup-error", "Please enter a username");
+      isSubmitting = false;
+      return;
     }
-
-    if (password.length < 8 || password.length > 15 ) {
-        alert("Password must be between 8 and 15 characters");    
-        return;
+  
+    if (!validateEmail(email)) {
+      displayError("signup-error", "Please enter a valid email");
+      isSubmitting = false;
+      return;
     }
-
+  
+    if (!validatePassword(password)) {
+      displayError(
+        "signup-error",
+        "Password must be 8-15 characters, with a number and special character"
+      );
+      isSubmitting = false;
+      return;
+    }
+  
     if (password !== confirmPassword) {
-        alert("Passwords do not match");
-        return;
+      displayError("signup-error", "Passwords do not match");
+      isSubmitting = false;
+      return;
     }
-
-    if (!email.includes("@")) {
-        alert("Please enter a valid email");
-        return;
-    }
-
+  
     if (!role) {
-        alert("Please select a role");
-        return;
+      displayError("signup-error", "Please select a role");
+      isSubmitting = false;
+      return;
     }
-
+  
     
-    if (role === "backer") {
-        if (!photoInput.files || photoInput.files.length === 0) {
-            alert("Please upload a photo");
-            return;
-        }
-        
-       
-        const file = photoInput.files[0];
-        const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
-        if (!validTypes.includes(file.type)) {
-            alert("Please upload a valid image file (JPEG, PNG, or GIF)");
-            return;
-        }
-    }
-
-    console.log("Signup Data:", { 
-        username, 
-        email, 
-        password, 
-        role,
-        hasPhoto: photoInput?.files?.length > 0,
-        photo: photoInput.files[0].src
-    });
-    alert("Signup successful!");
-}
-
-function handleLogin(event) {
-    event.preventDefault();
-    
-    const username = document.getElementById("loginUsername").value.trim();
-    const password = document.getElementById("loginPassword").value;
-
-    if (!username || !password) {
-        alert("Please enter both username and password");
-        return;
-    }
-    
-    console.log("Login Data:", { username, password });
-    alert("Login successful!");
-}
-
-
-document.getElementById("signupForm").addEventListener("submit", function(e){
-    e.preventDefault();
-    
-    const username = document.getElementById("username").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value;
-    const role = document.querySelector('input[name="role"]:checked')?.value;
-    const photoInput = document.getElementById("photo");
-
-    const newUser = {
-        username,
-        email,
-        password,
-        role,
-        hasPhoto: photoInput?.files?.length > 0,
-        photo: photoInput.files[0].src
-    }
-
-    fetch("http://localhost:3000/api/users", {
+    const userinfo = {
+      username,
+      email,
+      password,
+      role
+    };
+  
+    try {
+      const response = await fetch("http://localhost:3001/users", {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+          "Content-Type": "application/json"
         },
-        body: JSON.stringify(newUser)
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log("User created:", data);
-        alert("Signup successful!");
-    })
-    .catch(error => {
-        console.error("Error:", error);
-        alert("Signup failed. Please try again.");
-    });
+        body: JSON.stringify(userinfo)
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+  
+      const data = await response.json();
+      console.log("User created:", data);
+      displayError("signup-error", "Signup successful!", "green");
+      document.getElementById("signupForm").reset();
+      showLoginForm();
+    } catch (error) {
+      console.error("Error:", error);
+      displayError("signup-error", error.message || "Signup failed. Please try again.");
+    } finally {
+      isSubmitting = false;
+    }
+  }
+  
+  
+  function handleLogin(event) {
+    event.preventDefault();
+    clearErrors();
+  
+    const username = document.getElementById("loginUsername").value.trim();
+    const password = document.getElementById("loginPassword").value;
+  
+    if (!username || !password) {
+      displayError("login-error", "Please enter both username and password");
+      return;
+    }
+  
+    
+    console.log("Login Data:", { username, password });
+    displayError("login-error", "Login successful!", "green");
+  }
+  
+  // Remove any existing event listeners
+  const signupForm = document.getElementById("signupForm");
+  const loginForm = document.getElementById("loginForm");
+  const button1 = document.querySelector(".button-1");
+  const button2 = document.querySelector(".button-2");
 
-    document.getElementById("signupForm").reset();
-    
-    
-    
-        
-})
+  if (signupForm) {
+    signupForm.removeEventListener("submit", handleSignup);
+    signupForm.addEventListener("submit", handleSignup, { once: true });
+  }
+
+  if (loginForm) {
+    loginForm.removeEventListener("submit", handleLogin);
+    loginForm.addEventListener("submit", handleLogin);
+  }
+
+  if (button1) {
+    button1.removeEventListener("click", showSignupForm);
+    button1.addEventListener("click", showSignupForm);
+  }
+
+  if (button2) {
+    button2.removeEventListener("click", showLoginForm);
+    button2.addEventListener("click", showLoginForm);
+  }
