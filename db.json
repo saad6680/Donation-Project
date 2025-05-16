@@ -79,6 +79,36 @@
       "maxSalary": "10000",
       "role": "campaigner",
       "isActive": true
+    },
+    {
+      "id": "5859",
+      "image": "C:\\fakepath\\08453256-12b6-474d-89ac-2a1c8713a644.png",
+      "title": "salama",
+      "description": "salama ali",
+      "minSalary": "25000",
+      "maxSalary": "50000",
+      "role": "campaigner",
+      "isActive": true
+    },
+    {
+      "id": "2eba",
+      "image": "C:\\fakepath\\1745946286760.jpeg",
+      "title": "john",
+      "description": "john",
+      "minSalary": "626",
+      "maxSalary": "6526",
+      "role": "campaigner",
+      "isActive": true
+    },
+    {
+      "id": "283e",
+      "image": "C:\\fakepath\\IMG-20250429-WA0054.jpg",
+      "title": "mosad",
+      "description": "mosad",
+      "minSalary": "25000",
+      "maxSalary": "50000",
+      "role": "campaigner",
+      "isActive": true
     }
   ],
   "acceptedCampaigns": [
