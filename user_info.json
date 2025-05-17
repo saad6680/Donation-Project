@@ -1,5 +1,18 @@
 {
   "users": [
-    
+    {
+      "username": "vywuwiw",
+      "email": "fidisazegu@mailinator.com",
+      "password": "Pa$$w0rd!",
+      "role": "backer",
+      "id": 1
+    },
+    {
+      "username": "hinym",
+      "email": "kajomu@mailinator.com",
+      "password": "Pa$$w0rd!",
+      "role": "campaigner",
+      "id": 2
+    }
   ]
 }

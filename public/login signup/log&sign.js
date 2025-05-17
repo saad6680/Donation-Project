@@ -16,7 +16,7 @@ function login()
 
 }
 
-// Validation functions
+
 function validatePassword(password) {
     const minLength = 8;
     const maxLength = 15;
@@ -35,12 +35,7 @@ function validatePassword(password) {
     return emailRegex.test(email);
   }
   
-  function validateImageFile(file) {
-    const validTypes = ["image/jpeg", "image/png", "image/gif"];
-    return file && validTypes.includes(file.type);
-  }
-  
-  // UI error handling
+ 
   function displayError(containerId, message, color = "red") {
     const errorContainer = document.getElementById(containerId);
     if (errorContainer) {
@@ -169,14 +164,36 @@ function validatePassword(password) {
     const username = document.getElementById("loginUsername").value.trim();
     const password = document.getElementById("loginPassword").value;
   
+    // Validate inputs are present
     if (!username || !password) {
       displayError("login-error", "Please enter both username and password");
       return;
     }
   
     
-    console.log("Login Data:", { username, password });
-    displayError("login-error", "Login successful!", "green");
+    fetch("http://localhost:3001/users")
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        
+        const user = data.find(user => 
+          user.username === username && user.password === password
+        );
+        if (user) {
+          displayError("login-error", "Login successful!", "green");
+          localStorage.setItem("user", JSON.stringify(user));
+        } else {
+          displayError("login-error", "Invalid username or password");
+        }
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        displayError("login-error", "Login failed. Please try again.");
+      });
   }
   
   const signupForm = document.getElementById("signupForm");
