@@ -55,18 +55,13 @@ function displayAcceptedCampaigns() {
                     `;
                     container.appendChild(campaignDiv);
 
-                    // Add event listener for delete icon
                     const deleteIcon = campaignDiv.querySelector('.deleteIcon');
                     deleteIcon.addEventListener('click', function () {
                         // Remove the specific campaign ID from acceptedCampaignIds
                         const updatedCampaignIds = acceptedCampaignIds.filter(id => id !== campaign.id);
-                        // Update localStorage
                         localStorage.setItem('acceptedCampaignIds', JSON.stringify(updatedCampaignIds));
-                        // Update the campaign count
                         numOfAcceptdCamp.innerText = updatedCampaignIds.length;
-                        // Remove only the current campaign div from the DOM
                         campaignDiv.remove();
-                        // If no campaigns remain, show empty message
                         if (updatedCampaignIds.length === 0) {
                             container.innerHTML = '<p>No campaigns accepted yet.</p>';
                         }

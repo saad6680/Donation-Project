@@ -70,7 +70,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 console.log('Campaign added:', data);
                 clearInputsCreateCampaigns();
+                
                 window.location.href = '../Campagins/campagins.html';
+                
                 alert('The Campaign Under Review');
             })
             .catch(err => {
