@@ -17,7 +17,7 @@ function displayAcceptedCampaigns() {
     }
 
     const acceptedCampaignIds = JSON.parse(localStorage.getItem('acceptedCampaignIds')) || [];
-    console.log('Accepted campaign IDs:', acceptedCampaignIds); // Log IDs
+    console.log('Accepted campaign IDs:', acceptedCampaignIds); 
 
     if (acceptedCampaignIds.length === 0) {
         container.innerHTML = '<p>No campaigns accepted yet.</p>';
@@ -49,7 +49,7 @@ function displayAcceptedCampaigns() {
                             <div class="progress mb-5">
                                 <div class="progress-bar bg-success" style="width: ${(campaign.minSalary / campaign.maxSalary) * 100}%"></div>
                             </div>
-                            <button id='donate-${campaign.id} class='btn btn-warning mb-3'>Donate Now</button>
+                            <button class='btn btn-warning mb-3'><a class='bBtn' href="https://form.jotform.com/251354885619569" target= '_blank'>Donate Now</a></button>
                         </div>
                     `;
                     container.appendChild(campaignDiv);
@@ -61,7 +61,7 @@ function displayAcceptedCampaigns() {
     });
 }
 function handleDonation(campaignId){
-    // here when clk on donate now
+    // here handle donate btn
 }
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM loaded, calling displayAcceptedCampaigns');

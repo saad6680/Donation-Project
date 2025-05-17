@@ -85,3 +85,27 @@ function reject(event) {
         console.error('Error in reject function:', error);
     }
 }
+function donationAmountAndCampaigns(){
+    const donationTotal = localStorage.getItem('donationTotal');
+    console.log(donationTotal);
+    const acceptedCampaignsIds = JSON.parse(localStorage.getItem('acceptedCampaignIds')) || [];
+    const donationAmountElement = document.querySelector('.donationAmount');
+    const comapainsCount = document.querySelector('.comapainsCount');
+    
+    if(donationTotal && donationAmountElement) {
+        console.log('Donation Amount:', donationTotal);
+        donationAmountElement.innerText = parseFloat(donationTotal).toFixed(2);
+        
+    } 
+    else if(donationAmountElement) {
+        donationAmountElement.textContent = 'No Donations yet'
+    }
+    if (comapainsCount) {
+        comapainsCount.innerText = acceptedCampaignsIds.length;
+    }
+    else {
+        console.log('Campaigns count not found');
+        
+    }
+}
+window.addEventListener('load', donationAmountAndCampaigns)

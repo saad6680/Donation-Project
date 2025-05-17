@@ -139,6 +139,36 @@
       "maxSalary": "25748",
       "role": "campaigner",
       "isActive": true
+    },
+    {
+      "id": "993d",
+      "image": "C:\\fakepath\\08453256-12b6-474d-89ac-2a1c8713a644.png",
+      "title": "5",
+      "description": "5",
+      "minSalary": "5",
+      "maxSalary": "5",
+      "role": "campaigner",
+      "isActive": true
+    },
+    {
+      "id": "d7c4",
+      "image": "C:\\fakepath\\اقرار.jpg",
+      "title": "vf",
+      "description": "fs",
+      "minSalary": "3968",
+      "maxSalary": "7582",
+      "role": "campaigner",
+      "isActive": true
+    },
+    {
+      "id": "ea13",
+      "image": "C:\\fakepath\\2965e679-06e0-4262-83fa-def2d676d079.png",
+      "title": "saad",
+      "description": "sada",
+      "minSalary": "74",
+      "maxSalary": "7588",
+      "role": "campaigner",
+      "isActive": true
     }
   ]
 }
