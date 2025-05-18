@@ -490,3 +490,8 @@ body .testimonial .row .carousel .carousel-inner .carousel-item .quote-wrapper h
         margin-right: 25px;
     }
 }
+@media (max-width: 1199px) {
+    .about-section{
+        display: none;
+    }
+}

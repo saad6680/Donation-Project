@@ -60,9 +60,9 @@ function displayAcceptedCampaigns() {
             .catch(error => console.error(`Error fetching campaign ${campaignId}:`, error));
     });
 }
-function handleDonation(campaignId){
-    // here handle donate btn
-}
+// function handleDonation(campaignId){
+//     // here handle donate btn
+// }
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM loaded, calling displayAcceptedCampaigns');
     displayAcceptedCampaigns();

@@ -177,7 +177,7 @@
     cursor: pointer;
   }
 
-  #photo-upload-section {
+  /* #photo-upload-section {
     text-align: center;
     margin: 15px 0;
   }
@@ -199,7 +199,7 @@
 
   #photo:hover {
     border-color: var(--color-secondary);
-  }
+  } */
 
   .file-upload-wrapper {
     text-align: center;
@@ -285,6 +285,7 @@
   }
 
   .role-selection {
+    margin-bottom: 10%;
     display: flex;
     justify-content: center;
     
@@ -293,4 +294,40 @@
     display: flex;
     align-items: center;
     gap: 5px;
+  }
+
+  .spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+    margin-right: 8px;
+  }
+  
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  
+  .error-message {
+    margin-top: 5px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+  }
+  
+  .error-message[role="alert"] {
+    padding: 8px;
+    border-radius: 4px;
+    background-color: rgba(255, 0, 0, 0.1);
+  }
+  
+  .error-message:empty {
+    display: none;
+  }
+  
+  button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
   }
