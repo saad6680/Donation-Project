@@ -19,6 +19,11 @@
     p {
         display: none;
     }
+    .dropdownImage{
+        border-radius: 50%;
+        width: 2rem;
+        height: 2rem;
+    }
 
 </style>
 <body>
@@ -45,9 +50,15 @@
                     <a class="nav-link" href="#">Contact</a>
                 </li>
             </ul>
-            <form class="d-flex ms-auto" role="btn">
-                <button class="btn btn-success" type="submit"><a class="bBtn" href="../addCampaign/addCampaign.html">Add a Campaign</a></button>
-            </form>
+            <div class="dropdown ">
+                <a class="btn  dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <img class="dropdownImage" src="../../assits/images/2.jpg" alt="">
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                </ul>
+            </div>
         </div>
     </div>
 </nav>

@@ -1,4 +1,3 @@
-
 // add footer in index.html
 fetch('../Footer/footer.html')
     .then(response => response.text())
@@ -49,7 +48,7 @@ function displayAcceptedCampaigns() {
                             <div class="progress mb-5">
                                 <div class="progress-bar bg-success" style="width: ${(campaign.minSalary / campaign.maxSalary) * 100}%"></div>
                             </div>
-                            <button class='btn btn-warning mb-3'><a class='bBtn' href="../DonateNow/dontateNow.html" target= '_blank'>Donate Now</a></button>
+                            <button class='btn btn-warning mb-3'><a class='bBtn' href="../DonateNow/dontateNow.html?campaignId=${campaign.id}" target= '_blank'>Donate Now</a></button>
                         </div>
                     `;
                     container.appendChild(campaignDiv);
@@ -64,4 +63,10 @@ function displayAcceptedCampaigns() {
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM loaded, calling displayAcceptedCampaigns');
     displayAcceptedCampaigns();
+
+    const user = JSON.parse(localStorage.getItem('user'));
+    const addCampaignBtn = document.querySelector('.btn-success');
+    if (user && user.role === 'backer' && addCampaignBtn) {
+        addCampaignBtn.style.display = 'none';
+    }
 });
