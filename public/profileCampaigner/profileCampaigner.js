@@ -73,7 +73,12 @@ function displayAcceptedCampaigns() {
             .catch(error => console.error(`Error fetching campaign ${campaignId}:`, error));
     });
 }
+let logOut = document.getElementById('logOut');
 
+logOut.addEventListener('click', function(){
+    localStorage.removeItem("user");
+    window.location.href = "../login_signup/log&sign.html"
+})
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM loaded, calling displayAcceptedCampaigns');
     displayAcceptedCampaigns();

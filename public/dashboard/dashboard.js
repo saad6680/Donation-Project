@@ -17,7 +17,7 @@ function getData() {
                 campaignDiv.style.width = '20rem';
                 campaignDiv.setAttribute('data-id', campaign.id);
                 campaignDiv.innerHTML = `
-                    <img class='mb-3' src="${campaign.imageSrc}" alt="Campaign Image" />
+                    <img width='300px' height='250px'style='border-radius: 25px 25px 0 0' class='mb-3' src="${campaign.image}" alt="Campaign Image" />
                     <div class="card-body">
                         <h5 class="card-title mb-3">${campaign.title}</h5>
                         <p class="card-text">${campaign.description}</p>
