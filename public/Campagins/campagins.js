@@ -15,7 +15,7 @@ function displayAcceptedCampaigns() {
         console.error('Accepted campaign container not found in the DOM');
         return;
     }
-
+    
     const acceptedCampaignIds = JSON.parse(localStorage.getItem('acceptedCampaignIds')) || [];
     console.log('Accepted campaign IDs:', acceptedCampaignIds); 
 
@@ -41,7 +41,7 @@ function displayAcceptedCampaigns() {
                     campaignDiv.style.width = '20rem';
                     campaignDiv.setAttribute('data-id', campaign.id);
                     campaignDiv.innerHTML = `
-                        <img width='300px' height='300px' class='mb-3' src="${campaign.imageSrc}" alt="Campaign Image" />
+                        <img width='300px' height='300px' class='mb-3' src="${campaign.image}" alt="Campaign Image" />
                         <div class="card-body">
                             <h5 class="card-title mb-3">${campaign.title}</h5>
                             <p class="card-text">${campaign.description}</p>
@@ -49,7 +49,7 @@ function displayAcceptedCampaigns() {
                             <div class="progress mb-5">
                                 <div class="progress-bar bg-success" style="width: ${(campaign.minSalary / campaign.maxSalary) * 100}%"></div>
                             </div>
-                            <button class='btn btn-warning mb-3'><a class='bBtn' href="https://form.jotform.com/251354885619569" target= '_blank'>Donate Now</a></button>
+                            <button class='btn btn-warning mb-3'><a class='bBtn' href="../DonateNow/dontateNow.html" target= '_blank'>Donate Now</a></button>
                         </div>
                     `;
                     container.appendChild(campaignDiv);
@@ -60,9 +60,7 @@ function displayAcceptedCampaigns() {
             .catch(error => console.error(`Error fetching campaign ${campaignId}:`, error));
     });
 }
-// function handleDonation(campaignId){
-//     // here handle donate btn
-// }
+
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM loaded, calling displayAcceptedCampaigns');
     displayAcceptedCampaigns();

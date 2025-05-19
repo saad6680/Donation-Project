@@ -1,0 +1,6 @@
+
+
+function logOut() {
+  localStorage.removeItem("user");
+    window.location.href = "/"
+}
