@@ -7,6 +7,26 @@ fetch('../Footer/footer.html')
 
 //-------------------------------------------------------------------------
 
+function handleUserDropdown() {
+    const userDropdown = document.getElementById('userDropdown');
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    if (user) {
+        userDropdown.style.display = 'block';
+
+        // Add logout functionality
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                localStorage.removeItem('user');
+                window.location.href = '../login_signup/log&sign.html';
+            });
+        }
+    } else {
+        userDropdown.style.display = 'none';
+    }
+}
 
 function displayAcceptedCampaigns() {
     const container = document.querySelector('.accepted-campaign-container');
@@ -36,19 +56,21 @@ function displayAcceptedCampaigns() {
                 console.log('Fetched campaign data:', campaign);
                 if (!container.querySelector(`[data-id="${campaign.id}"]`)) {
                     const campaignDiv = document.createElement('div');
-                    campaignDiv.classList.add('col-md-3', 'person-box', 'mb-4',);
+                    campaignDiv.classList.add('col-md-3', 'person-box', 'mb-4');
                     campaignDiv.style.width = '20rem';
                     campaignDiv.setAttribute('data-id', campaign.id);
                     campaignDiv.innerHTML = `
-                        <img width='300px' height='300px' class='mb-3' src="${campaign.image}" alt="Campaign Image" />
-                        <div class="card-body">
-                            <h5 class="card-title mb-3">${campaign.title}</h5>
-                            <p class="card-text">${campaign.description}</p>
-                            <p> <b style="color: black;">$${campaign.minSalary}</b> raised of $${campaign.maxSalary} goal</p>
-                            <div class="progress mb-5">
-                                <div class="progress-bar bg-success" style="width: ${(campaign.minSalary / campaign.maxSalary) * 100}%"></div>
+                        <div class="campaign-card" onclick="window.location.href='../Donations/donations.html?campaignId=${campaign.id}'" style="cursor: pointer;">
+                            <img width='300px' height='300px' class='mb-3' src="${campaign.image}" alt="Campaign Image" />
+                            <div class="card-body">
+                                <h5 class="card-title mb-3">${campaign.title}</h5>
+                                <p class="card-text">${campaign.description}</p>
+                                <p> <b style="color: black;">$${campaign.minSalary}</b> raised of $${campaign.maxSalary} goal</p>
+                                <div class="progress mb-5">
+                                    <div class="progress-bar bg-success" style="width: ${(campaign.minSalary / campaign.maxSalary) * 100}%"></div>
+                                </div>
+                                <button class='btn btn-warning mb-3'><a class='bBtn' href="../DonateNow/dontateNow.html?campaignId=${campaign.id}" target= '_blank'>Donate Now</a></button>
                             </div>
-                            <button class='btn btn-warning mb-3'><a class='bBtn' href="../DonateNow/dontateNow.html?campaignId=${campaign.id}" target= '_blank'>Donate Now</a></button>
                         </div>
                     `;
                     container.appendChild(campaignDiv);
@@ -62,11 +84,6 @@ function displayAcceptedCampaigns() {
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM loaded, calling displayAcceptedCampaigns');
+    handleUserDropdown();
     displayAcceptedCampaigns();
-
-    const user = JSON.parse(localStorage.getItem('user'));
-    const addCampaignBtn = document.querySelector('.btn-success');
-    if (user && user.role === 'backer' && addCampaignBtn) {
-        addCampaignBtn.style.display = 'none';
-    }
 });

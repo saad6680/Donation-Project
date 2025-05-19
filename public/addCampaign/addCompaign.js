@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
     }
 
-    const user = JSON.parse(localStorage.getItem('user')); // Get logged-in user
+    const user = JSON.parse(localStorage.getItem('user')); 
     if (!user || !user.username) {
         alert('User not logged in');
         return;

@@ -109,3 +109,9 @@ function donationAmountAndCampaigns(){
     }
 }
 window.addEventListener('load', donationAmountAndCampaigns)
+
+document.getElementById('logoutBtn').addEventListener('click', function(e) {
+    e.preventDefault();
+    localStorage.removeItem('user');
+    window.location.href = '../login_signup/log&sign.html';
+});
