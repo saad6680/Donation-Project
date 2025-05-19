@@ -1,4 +1,3 @@
-
 // add footer in index.html
 fetch('../Footer/footer.html')
     .then(response => response.text())
@@ -17,7 +16,26 @@ document.addEventListener('DOMContentLoaded', function () {
     const maxSalary = document.querySelector('#maxSalary');
     const submitBtn = document.querySelector('#campSubmit');
     
-
+    const profileLink = document.querySelector('.dropdown-item');
+    if (profileLink) {
+        profileLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (!user) {
+                alert('Please log in first');
+                window.location.href = '../login_signup/log&sign.html';
+                return;
+            }
+            
+            if (user.role === 'campaigner') {
+                window.location.href = '../profileCampaigner/profileCampaigner.html';
+            } else if (user.role === 'backer') {
+                window.location.href = '../profileBacker/profileBacker.html';
+            } else {
+                window.location.href = '../dashboard/dashboard.html';
+            }
+        });
+    }
 
     function clearInputsCreateCampaigns() {
         image.value = '';
@@ -79,10 +97,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const file = e.target.files[0];
         if (file) {
             try {
-                // Use compression and conversion
                 base64Image = await compressAndConvertToBase64(file);
                 console.log("Image compressed and converted to base64");
-                // Optional: Show image size for debugging
                 console.log(`Base64 image size: ~${Math.round(base64Image.length / 1024)} KB`);
             } catch (error) {
                 console.error("Error processing image:", error);
@@ -93,48 +109,48 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
     submitBtn.addEventListener('click', function (e) {
-        e.preventDefault();
+    e.preventDefault();
 
+    const hasError = handleErrorsInputs();
+    if (hasError) {
+        alert('Please fill in all fields');
+        return;
+    }
 
-        const hasError = handleErrorsInputs();
-        if (hasError) {
-            alert('Please fill in all fields');
-            return;
-        }
+    const user = JSON.parse(localStorage.getItem('user')); // Get logged-in user
+    if (!user || !user.username) {
+        alert('User not logged in');
+        return;
+    }
 
-        const campaignData = {
-            image: base64Image,
-            title: title.value,
-            description: description.value,
-            minSalary: minSalary.value,
-            maxSalary: maxSalary.value,
-            role: 'campaigner',
-            isActive: true
-        };
+    const campaignData = {
+        image: base64Image,
+        title: title.value,
+        description: description.value,
+        minSalary: minSalary.value,
+        maxSalary: maxSalary.value,
+        role: 'campaigner',
+        isActive: true,
+        creatorUsername: user.username 
+    };
 
-        fetch('http://localhost:3000/campaigns', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(campaignData)
+    fetch('http://localhost:3000/campaigns', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(campaignData)
+    })
+        .then(res => res.json())
+        .then(data => {
+            console.log('Campaign added:', data);
+            clearInputsCreateCampaigns();
+            alert('The Campaign Under Review');
         })
-            .then(res => res.json())
-            .then(data => {
-
-                console.log('Campaign added:', data);
-                clearInputsCreateCampaigns();
-
-                // window.location.href = '../Campagins/campagins.html';
-
-                alert('The Campaign Under Review');
-            })
-            .catch(err => {
-                console.error('Error:', err);
-                alert('An error occurred while submitting.');
-            });
-    });
+        .catch(err => {
+            console.error('Error:', err);
+            alert('An error occurred while submitting.');
+        });
+});
 });
 
-
-    

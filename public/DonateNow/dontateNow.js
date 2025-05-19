@@ -10,7 +10,7 @@ window.addEventListener('load', function(){
             let currentTotal = parseFloat(localStorage.getItem('donationTotal')) || 0;
             currentTotal += donation;
             localStorage.setItem('donationTotal', currentTotal);
-            window.location.href = ''; // profile backer 
+            window.location.href = '../profileBacker/profileBacker.html'; 
         }else {
             console.log('invalid donation');
             alert('please enter a valid donation')
@@ -20,4 +20,3 @@ window.addEventListener('load', function(){
     })
     
 })
-
