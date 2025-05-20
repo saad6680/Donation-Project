@@ -7,6 +7,10 @@ fetch('../Footer/footer.html')
 
 //-------------------------------------------------------------------------
 
+let allCampaigns = [];
+const itemsPerPage = 8;
+let currentPage = 1;
+
 function handleUserDropdown() {
     const userDropdown = document.getElementById('userDropdown');
     const user = JSON.parse(localStorage.getItem('user'));
@@ -14,12 +18,21 @@ function handleUserDropdown() {
     if (user) {
         userDropdown.style.display = 'block';
 
-        // Add logout functionality
+        // Update navbar profile image
+        const navbarProfileImage = document.querySelector('.dropdownImage');
+        if (navbarProfileImage) {
+            const savedImage = localStorage.getItem('profileImage');
+            if (savedImage) {
+                navbarProfileImage.src = savedImage;
+            }
+        }
+
         const logoutBtn = document.getElementById('logoutBtn');
         if (logoutBtn) {
             logoutBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 localStorage.removeItem('user');
+                localStorage.removeItem('profileImage');
                 window.location.href = '../login_signup/log&sign.html';
             });
         }
@@ -28,62 +41,161 @@ function handleUserDropdown() {
     }
 }
 
-function displayAcceptedCampaigns() {
+function fetchAllCampaigns() {
+    return fetch('http://localhost:3000/campaigns')
+        .then(response => response.json())
+        .then(campaigns => {
+            allCampaigns = campaigns;
+            return campaigns;
+        })
+        .catch(error => {
+            console.error('Error fetching campaigns:', error);
+            return [];
+        });
+}
+
+function filterAndSortCampaigns() {
+    const categoryFilter = document.getElementById('categoryFilter').value;
+    const searchInput = document.getElementById('searchInput').value.toLowerCase();
+
+    let filteredCampaigns = allCampaigns.filter(campaign => {
+        const matchesCategory = !categoryFilter || campaign.category === categoryFilter;
+        const matchesSearch = !searchInput || 
+            campaign.title.toLowerCase().includes(searchInput) || 
+            campaign.description.toLowerCase().includes(searchInput);
+        return matchesCategory && matchesSearch;
+    });
+
+    return filteredCampaigns;
+}
+
+function displayCampaigns(campaigns) {
     const container = document.querySelector('.accepted-campaign-container');
     if (!container) {
-        console.error('Accepted campaign container not found in the DOM');
-        return;
-    }
-    
-    const acceptedCampaignIds = JSON.parse(localStorage.getItem('acceptedCampaignIds')) || [];
-    console.log('Accepted campaign IDs:', acceptedCampaignIds); 
-
-    if (acceptedCampaignIds.length === 0) {
-        container.innerHTML = '<p>No campaigns accepted yet.</p>';
+        console.error('Campaign container not found in the DOM');
         return;
     }
 
-    acceptedCampaignIds.forEach(campaignId => {
-        console.log('Fetching campaign:', campaignId); 
-        fetch(`http://localhost:3000/campaigns/${campaignId}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(campaign => {
-                console.log('Fetched campaign data:', campaign);
-                if (!container.querySelector(`[data-id="${campaign.id}"]`)) {
-                    const campaignDiv = document.createElement('div');
-                    campaignDiv.classList.add('col-md-3', 'person-box', 'mb-4');
-                    campaignDiv.style.width = '20rem';
-                    campaignDiv.setAttribute('data-id', campaign.id);
-                    campaignDiv.innerHTML = `
-                        <div class="campaign-card" onclick="window.location.href='../Donations/donations.html?campaignId=${campaign.id}'" style="cursor: pointer;">
-                            <img width='300px' height='300px' class='mb-3' src="${campaign.image}" alt="Campaign Image" />
-                            <div class="card-body">
-                                <h5 class="card-title mb-3">${campaign.title}</h5>
-                                <p class="card-text">${campaign.description}</p>
-                                <p> <b style="color: black;">$${campaign.minSalary}</b> raised of $${campaign.maxSalary} goal</p>
-                                <div class="progress mb-5">
-                                    <div class="progress-bar bg-success" style="width: ${(campaign.minSalary / campaign.maxSalary) * 100}%"></div>
-                                </div>
-                                <button class='btn btn-warning mb-3'><a class='bBtn' href="../DonateNow/dontateNow.html?campaignId=${campaign.id}" target= '_blank'>Donate Now</a></button>
-                            </div>
-                        </div>
-                    `;
-                    container.appendChild(campaignDiv);
-                } else {
-                    console.log(`Campaign ${campaign.id} already displayed`);
-                }
-            })
-            .catch(error => console.error(`Error fetching campaign ${campaignId}:`, error));
+    // Clear existing content
+    container.innerHTML = '';
+
+    // Calculate pagination
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const paginatedCampaigns = campaigns.slice(startIndex, endIndex);
+
+    if (paginatedCampaigns.length === 0) {
+        container.innerHTML = '<p class="text-center w-100">No campaigns found.</p>';
+        return;
+    }
+
+    paginatedCampaigns.forEach(campaign => {
+        const deadlineDate = new Date(campaign.deadline);
+        const formattedDeadline = deadlineDate.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+
+        const campaignDiv = document.createElement('div');
+        campaignDiv.classList.add('col-md-3', 'person-box', 'mb-4');
+        campaignDiv.style.width = '20rem';
+        campaignDiv.setAttribute('data-id', campaign.id);
+        campaignDiv.innerHTML = `
+            <div class="campaign-card">
+                <img onclick="window.location.href='../Donations/donations.html?campaignId=${campaign.id}'" 
+                    src="${campaign.image}" alt="Campaign Image" />
+                <div class="card-body">
+                    <h5 class="card-title">${campaign.title}</h5>
+                    <p class="card-text">${campaign.description}</p>
+                    <div class="campaign-info">
+                        <span>Goal: <strong>$${campaign.maxSalary}</strong></span>
+                        <span>Raised: <strong>$${campaign.minSalary}</strong></span>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar bg-success" style="width: ${(campaign.minSalary / campaign.maxSalary) * 100}%"></div>
+                    </div>
+                    <div class="campaign-info">
+                        <span>Deadline: <strong>${formattedDeadline}</strong></span>
+                        <span>Category: <strong>${campaign.category}</strong></span>
+                    </div>
+                    <button class="btn btn-warning mt-3">
+                        <a href="../DonateNow/dontateNow.html?campaignId=${campaign.id}">Donate Now</a>
+                    </button>
+                </div>
+            </div>
+        `;
+        container.appendChild(campaignDiv);
+    });
+
+    updatePagination(campaigns.length);
+}
+
+function updatePagination(totalItems) {
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+    const pagination = document.getElementById('pagination');
+    pagination.innerHTML = '';
+
+    const prevLi = document.createElement('li');
+    prevLi.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
+    prevLi.innerHTML = `<a class="page-link" href="#" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+    </a>`;
+    prevLi.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (currentPage > 1) {
+            currentPage--;
+            displayCampaigns(filterAndSortCampaigns());
+        }
+    });
+    pagination.appendChild(prevLi);
+
+    for (let i = 1; i <= totalPages; i++) {
+        const li = document.createElement('li');
+        li.className = `page-item ${currentPage === i ? 'active' : ''}`;
+        li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+        li.addEventListener('click', (e) => {
+            e.preventDefault();
+            currentPage = i;
+            displayCampaigns(filterAndSortCampaigns());
+        });
+        pagination.appendChild(li);
+    }
+
+    const nextLi = document.createElement('li');
+    nextLi.className = `page-item ${currentPage === totalPages ? 'disabled' : ''}`;
+    nextLi.innerHTML = `<a class="page-link" href="#" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+    </a>`;
+    nextLi.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (currentPage < totalPages) {
+            currentPage++;
+            displayCampaigns(filterAndSortCampaigns());
+        }
+    });
+    pagination.appendChild(nextLi);
+}
+
+function setupEventListeners() {
+    const categoryFilter = document.getElementById('categoryFilter');
+    const searchInput = document.getElementById('searchInput');
+
+    categoryFilter.addEventListener('change', () => {
+        currentPage = 1;
+        displayCampaigns(filterAndSortCampaigns());
+    });
+
+    searchInput.addEventListener('input', () => {
+        currentPage = 1;
+        displayCampaigns(filterAndSortCampaigns());
     });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM loaded, calling displayAcceptedCampaigns');
+document.addEventListener('DOMContentLoaded', async () => {
+    console.log('DOM loaded, initializing campaigns page');
     handleUserDropdown();
-    displayAcceptedCampaigns();
+    await fetchAllCampaigns();
+    setupEventListeners();
+    displayCampaigns(filterAndSortCampaigns());
 });

@@ -6,124 +6,130 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../Footer/footer.css">
     <link rel="stylesheet" href="../profileBacker/profileBacker.css">
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
-
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <title>Backer Profile</title>
-
 </head>
 
-<body>
-    <nav class="navbar navbar-expand-lg bg-body-light">
+<body class="bg-light">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
         <div class="container">
             <a class="navbar-brand" href="#">
                 <img class="navbar-logo" src="../../assits/images/Logo txt.png" alt="Raha logo">
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">                <span class="navbar-toggler-icon"></span>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="../index.html">Home</a>
+                        <a class="nav-link active" href="../index.html">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">About Us</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link campagins" href="../Campagins/campagins.html">Campagins</a>
+                        <a class="nav-link" href="../Campagins/campagins.html">Campaigns</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="../contact-us/contact.html">Contact</a>
                     </li>
-
                 </ul>
-
-                
-                <div class="dropdown ">
-                    <a class="btn  dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        <img class="dropdownImage" src="../../assits/images/2.jpg" alt="">
+                <div class="dropdown">
+                    <a class="btn dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
+                        <img class="rounded-circle me-2" src="https://bootdey.com/img/Content/avatar/avatar1.png" width="32" height="32" alt="Profile">
+                        <span class="d-none d-md-inline">Profile</span>
                     </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Profile</a></li>
-                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#settingsModal">Settings</a></li>
-                        <li><a id="logOut" class="dropdown-item" href="#">LogOut</a></li>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Profile</a></li>
+                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#settingsModal">
+                            <i class="fas fa-cog me-2"></i>Settings
+                        </a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a id="logOut" class="dropdown-item text-danger" href="#">
+                            <i class="fas fa-sign-out-alt me-2"></i>Logout
+                        </a></li>
                     </ul>
                 </div>
             </div>
         </div>
     </nav>
-    <div class="container">
-        <div class="card overflow-hidden pt-3">
-            <div class="card-body p-0">
-                <div class="row align-items-center">
-                    <div class="col-lg-4 order-lg-1 order-2">
+
+    <!-- Main Content -->
+    <div class="container py-5">
+        <!-- Profile Header -->
+        <div class="row mb-5">
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="position-relative d-inline-block mb-3">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" 
+                                 class="rounded-circle profile-image" width="120" height="120" alt="Profile" id="profileImage">
+                            <div class="position-absolute bottom-0 end-0">
+                                <label for="profileImageInput" class="btn btn-light rounded-circle shadow-sm">
+                                    <i class="fas fa-camera"></i>
+                                </label>
+                                <input type="file" id="profileImageInput" accept="image/*" style="display: none;">
+                            </div>
+                        </div>
+                        <h4 class="mb-1" id="usernameDisplay">User</h4>
+                        <p class="text-muted mb-3">Backer</p>
+                        <div class="d-flex justify-content-center gap-2">
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#settingsModal">
+                                <i class="fas fa-cog me-2"></i>Settings
+                            </button>
+                        </div>
                     </div>
-                    <div class="col-lg-4 mt-n3 order-lg-2 order-1">
-                        <div>
-                            <div class="d-flex align-items-center justify-content-center mb-2" style="position: relative;">
-                                <div class="linear-gradient d-flex align-items-center justify-content-center rounded-circle"
-                                    style="width: 110px; height: 110px;" ;="">
-                                    <div class="border border-4 border-white d-flex align-items-center justify-content-center rounded-circle overflow-hidden"
-                                        style="width: 100px; height: 100px;" ;="">
-                                        <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt=""
-                                            class="w-100 h-100">
-                                    </div>
-                                </div>
-                                <span class="rewards">Top rated</span>
-                            </div>
-                            <div class="text-center">
-                                <div class="profile-header">
-                                    <h3>Welcome, <span id="usernameDisplay">User</span>!</h3>
-                                </div>
-                            </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <h5 class="card-title mb-4">My Pledges</h5>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Username</th>
+                                        <th>Campaign Title</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="pledgesTableBody">
+                                    <!-- Pledges will be displayed here -->
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="tab-content" id="pills-tabContent">
-            <div class="tab-pane fade show active" id="pills-friends" role="tabpanel"
-                aria-labelledby="pills-friends-tab" tabindex="0">
-                <div class="d-sm-flex align-items-center justify-content-between mt-3 mb-4">
-                    <h3 class="mb-3 mb-sm-0 fw-semibold d-flex align-items-center">Campaigns <span
-                            class="badge text-bg-secondary fs-2 rounded-4 py-1 px-2 ms-2" id="numCamp">20</span></h3>
-                </div>
-                <div class="accepted-backer-container row">
-                    
-                </div>
-            </div>
-        </div>
     </div>
-    <div id="footer-placeholder"></div>
-    <script src="./profileBacker.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
-        crossorigin="anonymous"></script>
 
-    <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+    <!-- Settings Modal -->
+    <div class="modal fade" id="settingsModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="settingsModalLabel">Account Settings</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title">Account Settings</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-4">
                         <h6>Change Password</h6>
                         <form id="changePasswordForm">
                             <div class="mb-3">
-                                <label for="currentPassword" class="form-label">Current Password</label>
+                                <label class="form-label">Current Password</label>
                                 <input type="password" class="form-control" id="currentPassword" required>
                             </div>
                             <div class="mb-3">
-                                <label for="newPassword" class="form-label">New Password</label>
+                                <label class="form-label">New Password</label>
                                 <input type="password" class="form-control" id="newPassword" required>
                             </div>
                             <div class="mb-3">
-                                <label for="confirmPassword" class="form-label">Confirm New Password</label>
+                                <label class="form-label">Confirm New Password</label>
                                 <input type="password" class="form-control" id="confirmPassword" required>
                             </div>
                             <button type="submit" class="btn btn-primary">Update Password</button>
@@ -132,7 +138,7 @@
                     <hr>
                     <div>
                         <h6 class="text-danger">Danger Zone</h6>
-                        <p class="text-muted">Once you delete your account, there is no going back. Please be certain.</p>
+                        <p class="text-muted">Once you delete your account, there is no going back.</p>
                         <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteAccountModal">
                             Delete Account
                         </button>
@@ -142,18 +148,19 @@
         </div>
     </div>
 
-    <div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
+    <!-- Delete Account Modal -->
+    <div class="modal fade" id="deleteAccountModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="deleteAccountModalLabel">Delete Account</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title">Delete Account</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <p>Are you sure you want to delete your account? This action cannot be undone.</p>
                     <form id="deleteAccountForm">
                         <div class="mb-3">
-                            <label for="deletePassword" class="form-label">Enter your password to confirm</label>
+                            <label class="form-label">Enter your password to confirm</label>
                             <input type="password" class="form-control" id="deletePassword" required>
                         </div>
                         <button type="submit" class="btn btn-danger">Delete Account</button>
@@ -163,6 +170,10 @@
         </div>
     </div>
 
-</body>
+    <div id="footer-placeholder"></div>
 
+    <script src="../utils/profileUtils.js"></script>
+    <script src="./profileBacker.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>

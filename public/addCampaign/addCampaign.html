@@ -44,7 +44,7 @@
                     <a class="nav-link" href="#">About Us</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link campagins" href="./Campagins/campagins.html">Campagins</a>
+                    <a class="nav-link campagins" href="../Campagins/campagins.html">Campagins</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Contact</a>
@@ -84,6 +84,21 @@
             <div class="form-group">
                 <label for="maxSalary">*Maximum Salary</label>
                 <input type="number" class="form-control" id="maxSalary" placeholder="Enter maximum salary">
+            </div>
+            <div class="form-group">
+                <label for="deadline">*Campaign Deadline</label>
+                <input type="date" class="form-control" id="deadline" min="">
+            </div>
+            <div class="form-group">
+                <label for="category">*Category</label>
+                <select class="form-control" id="category">
+                    <option value="">Select a category</option>
+                    <option value="Education">Education</option>
+                    <option value="Medical">Medical</option>
+                    <option value="Emergency">Emergency</option>
+                    <option value="Business">Business</option>
+                    <option value="Other">Other</option>
+                </select>
             </div>
             <button id="campSubmit" type="submit" class="btn btn-primary">Submit Campaign</button>
         </form>

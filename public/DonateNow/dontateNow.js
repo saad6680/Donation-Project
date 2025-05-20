@@ -27,21 +27,48 @@ window.addEventListener('load', function(){
     submitBtn.addEventListener('click', function(e){
         e.preventDefault();
         let donation = parseFloat(donationNum.value);
-        console.log(donation);
+        
         if (!isNaN(donation) && donation > 0) {
             let currentTotal = parseFloat(localStorage.getItem('donationTotal')) || 0;
             currentTotal += donation;
             localStorage.setItem('donationTotal', currentTotal);
-
+    
             if (campaignId) {
                 let donatedCampaigns = JSON.parse(localStorage.getItem('donatedCampaigns')) || [];
-                if (!donatedCampaigns.includes(campaignId)) {
-                    donatedCampaigns.push(campaignId);
-                    localStorage.setItem('donatedCampaigns', JSON.stringify(donatedCampaigns));
+                const existingDonation = donatedCampaigns.find(d => d.campaignId === campaignId);
+                if (existingDonation) {
+                    existingDonation.amount += donation;
+                } else {
+                    donatedCampaigns.push({ campaignId, amount: donation });
                 }
+                localStorage.setItem('donatedCampaigns', JSON.stringify(donatedCampaigns));
+    
+                // Update the campaign's raised amount in the backend
+                fetch(`http://localhost:3000/campaigns/${campaignId}`)
+                    .then(response => response.json())
+                    .then(campaign => {
+                        const updatedMinSalary = (parseFloat(campaign.minSalary) || 0) + donation;
+                        return fetch(`http://localhost:3000/campaigns/${campaignId}`, {
+                            method: 'PATCH',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                minSalary: updatedMinSalary
+                            })
+                        });
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Failed to update campaign');
+                        }
+                        window.location.href = '../profileBacker/profileBacker.html';
+                    })
+                    .catch(error => {
+                        console.error('Error updating campaign:', error);
+                        alert('Failed to record donation. Please try again.');
+                    });
             }
-
-            window.location.href = '../profileBacker/profileBacker.html'; 
         } else {
             console.log('invalid donation');
             alert('please enter a valid donation');
