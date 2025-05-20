@@ -37,23 +37,38 @@ function getData() {
                 campaignDiv.style.width = '20rem';
                 campaignDiv.setAttribute('data-id', campaign.id);
                 campaignDiv.innerHTML = `
-                    <img width='300px' height='250px' style='border-radius: 25px 25px 0 0' class='mb-3' src="${campaign.image || 'path/to/fallback-image.jpg'}" alt="Campaign Image" />
-                    <div class="card-body">
-                        <h5 class="card-title mb-3">${campaign.title || 'Untitled'}</h5>
-                        <p class="card-text">${campaign.description || 'No description'}</p>
-                        <p> <b style="color: black;">$${campaign.minSalary || 0}</b> raised of $${campaign.maxSalary || 0} goal</p>
-                        <div class="campaign-info">
-                            <span>Deadline: <strong>${formattedDeadline}</strong></span>
-                            <span>Category: <strong>${campaign.category || 'N/A'}</strong></span>
-                        </div>
-                        <div class="progress">
-                            <div class="progress-bar bg-success" style="width: ${progressWidth}%"></div>
-                        </div>
-                        <div class="box-btns mt-4">
-                            <button onclick="accept(event)" class="btn btn-success" type="button">Accept</button>
-                            <button onclick="reject(event)" class="btn btn-danger" type="button">Reject</button>
-                        </div>
-                    </div>
+                    <div class="campaign-card">
+    <figure class="campaign-image">
+        <img src="${campaign.image || 'path/to/fallback-image.jpg'}" alt="Campaign Image" 
+             onclick="window.location.href='../Donations/donations.html?campaignId=${campaign.id}'" />
+        <div class="image-overlay"></div>
+    </figure>
+    <div class="card-content">
+        <h3 class="card-title">${campaign.title || 'Untitled'}</h3>
+        <p class="card-description">${campaign.description || 'No description'}</p>
+        <p class="funding-info">
+            <strong style="color: #1a1a1a;">$${campaign.minSalary || 0}</strong> raised of 
+            <strong>$${campaign.maxSalary || 0}</strong> goal
+        </p>
+        <div class="campaign-meta">
+            <div class="meta-item">
+                <span class="meta-label">Deadline</span>
+                <strong>${formattedDeadline || 'N/A'}</strong>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">Category</span>
+                <strong>${campaign.category || 'N/A'}</strong>
+            </div>
+        </div>
+        <div class="progress-bar-container">
+            <div class="progress-bar" style="width: ${progressWidth || 0}%"></div>
+        </div>
+        <div class="action-buttons">
+            <button onclick="accept(event)" class="btn btn-accept">Accept</button>
+            <button onclick="reject(event)" class="btn btn-reject">Reject</button>
+        </div>
+    </div>
+</div>
                 `;
                 personBoxes.appendChild(campaignDiv);
             });
@@ -63,7 +78,39 @@ function getData() {
             personBoxes.innerHTML = '<p>Error loading campaigns. Please try again later.</p>';
         });
 }
-getData();
+
+async function fetchTotalContainersAndBakers() {
+    try {
+        // Fetch campaigns to get total containers
+        const campaignsResponse = await fetch('http://localhost:3000/campaigns');
+        const campaigns = await campaignsResponse.json();
+        
+        // Fetch users to get total bakers
+        const usersResponse = await fetch('http://localhost:3000/users');
+        const users = await usersResponse.json();
+
+        // Update the containers count
+        const containersCount = document.querySelector('.info-box.active .big');
+        if (containersCount) {
+            containersCount.textContent = campaigns.length;
+        }
+
+        // Update the bakers count
+        const bakersCount = document.querySelector('.info-box:nth-child(4) .big');
+        if (bakersCount) {
+            bakersCount.textContent = users.length;
+        }
+    } catch (error) {
+        console.error('Error fetching counts:', error);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+    console.log('DOM loaded, initializing dashboard');
+    await fetchTotalContainersAndBakers();
+    getData();
+    donationAmountAndCampaigns();
+});
 
 function accept(event) {
     try {
@@ -132,7 +179,6 @@ function donationAmountAndCampaigns() {
 
     campaignsCount.textContent = acceptedCampaignsIds.length;
 }
-window.addEventListener('load', donationAmountAndCampaigns);
 
 const logoutBtn = document.getElementById('logoutBtn');
 if (logoutBtn) {

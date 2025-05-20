@@ -54,7 +54,7 @@
                     <img width="30px" height="30px" style="border-radius: 50%;" class="dropdownImage" src="../../assits/images/2.jpg" alt="Profile">
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="../profileBacker/profileBacker.html">Profile</a></li>
+                    <li><a class="dropdown-item" id="profileLink" href="#">Profile</a></li>
                     <li><a class="dropdown-item" href="#" id="logoutBtn">Logout</a></li>
                 </ul>
             </div>
@@ -102,5 +102,22 @@
     <script src="../utils/profileUtils.js"></script>
     <script src="./campagins.js"></script>
     <script src="../auth.js"></script>
+    <script>
+    const userRole = localStorage.getItem('user');
+    
+    const role = userRole ? JSON.parse(userRole).role : null;
+    console.log(role);
+
+    const profileLink = document.getElementById('profileLink');
+    if (profileLink) {
+        if (role === 'campaigner') {
+            profileLink.href = '../profileCampaigner/profileCampaigner.html';
+        } else if (role === 'backer') {
+            profileLink.href = '../profileBacker/profileBacker.html';
+        } else {
+            profileLink.href = '#'; 
+        }
+    }
+</script>
 </body>
 </html>
