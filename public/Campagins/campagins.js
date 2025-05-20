@@ -105,7 +105,7 @@ function displayCampaigns(campaigns) {
             <div class="campaign-card">
     <figure class="campaign-image">
         <img onclick="window.location.href='../Donations/donations.html?campaignId=${campaign.id}'" 
-             src="${campaign.image}" alt="Campaign Image" />
+            src="${campaign.image}" alt="Campaign Image" />
     </figure>
     <div class="card-content">
         <h3 class="card-title">${campaign.title}</h3>

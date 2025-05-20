@@ -7,7 +7,6 @@ fetch('../Footer/footer.html')
 
 //----------------------------------------------------
 
-
 document.addEventListener('DOMContentLoaded', function () {
     const image = document.querySelector('#imageSrc');
     const title = document.querySelector('#title');
@@ -17,18 +16,24 @@ document.addEventListener('DOMContentLoaded', function () {
     const deadline = document.querySelector('#deadline');
     const category = document.querySelector('#category');
     const submitBtn = document.querySelector('#campSubmit');
-    
+
     const profileLink = document.querySelector('.dropdown-item');
     if (profileLink) {
-        profileLink.addEventListener('click', function(e) {
+        profileLink.addEventListener('click', function (e) {
             e.preventDefault();
             const user = JSON.parse(localStorage.getItem('user'));
             if (!user) {
-                alert('Please log in first');
-                window.location.href = '../login_signup/log&sign.html';
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Not Logged In',
+                    text: 'Please log in first',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    window.location.href = '../login_signup/log&sign.html';
+                });
                 return;
             }
-            
+
             if (user.role === 'campaigner') {
                 window.location.href = '../profileCampaigner/profileCampaigner.html';
             } else if (user.role === 'backer') {
@@ -59,14 +64,22 @@ document.addEventListener('DOMContentLoaded', function () {
             deadline.value.trim() === '' ||
             category.value.trim() === ''
         ) {
-            pError.style.display = 'block';
+            const pError = document.getElementById('pError');
+            if (pError) pError.style.display = 'block';
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Missing Fields',
+                text: 'Please fill in all fields.',
+                confirmButtonText: 'OK'
+            });
+
             return true;
         }
         return false;
     }
 
     let base64Image = "";
-
 
     function compressAndConvertToBase64(file, maxWidth = 800, quality = 0.7) {
         return new Promise((resolve, reject) => {
@@ -99,6 +112,7 @@ document.addEventListener('DOMContentLoaded', function () {
             };
         });
     }
+
     document.getElementById('imageSrc')?.addEventListener('change', async (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -114,51 +128,69 @@ document.addEventListener('DOMContentLoaded', function () {
             base64Image = "";
         }
     });
+
     submitBtn.addEventListener('click', function (e) {
-    e.preventDefault();
+        e.preventDefault();
 
-    const hasError = handleErrorsInputs();
-    if (hasError) {
-        alert('Please fill in all fields');
-        return;
-    }
+        const hasError = handleErrorsInputs();
+        if (hasError) {
+            return;
+        }
 
-    const user = JSON.parse(localStorage.getItem('user')); 
-    if (!user || !user.username) {
-        alert('User not logged in');
-        return;
-    }
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (!user || !user.username) {
+            Swal.fire({
+                icon: 'error',
+                title: 'User Not Logged In',
+                text: 'Please log in before submitting a campaign.',
+                confirmButtonText: 'OK'
+            });
+            return;
+        }
 
-    const campaignData = {
-        image: base64Image,
-        title: title.value,
-        description: description.value,
-        minSalary: minSalary.value,
-        maxSalary: maxSalary.value,
-        deadline: deadline.value,
-        category: category.value,
-        role: 'campaigner',
-        isActive: true,
-        creatorUsername: user.username 
-    };
+        const campaignData = {
+            image: base64Image,
+            title: title.value,
+            description: description.value,
+            minSalary: minSalary.value,
+            maxSalary: maxSalary.value,
+            deadline: deadline.value,
+            category: category.value,
+            role: 'campaigner',
+            isActive: true,
+            creatorUsername: user.username
+        };
 
-    fetch('http://localhost:3000/campaigns', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(campaignData)
-    })
-        .then(res => res.json())
-        .then(data => {
-            console.log('Campaign added:', data);
-            clearInputsCreateCampaigns();
-            alert('The Campaign Under Review');
+        fetch('http://localhost:3000/campaigns', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(campaignData)
         })
-        .catch(err => {
-            console.error('Error:', err);
-            alert('An error occurred while submitting.');
-        });
-});
-});
+            .then(res => res.json())
+            .then(data => {
+                console.log('Campaign added:', data);
+                clearInputsCreateCampaigns();
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Submitted',
+                    text: 'The Campaign is under review.',
+                    timer: 2000,
+                    timerProgressBar: true,
+                    showConfirmButton: false
+                });
 
+                window.location.href = '../profileCampaigner/profileCampaigner.html'
+            })
+            .catch(err => {
+                console.error('Error:', err);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Submission Failed',
+                    text: 'An error occurred while submitting.',
+                    confirmButtonText: 'OK'
+                });
+            });
+    });
+});
