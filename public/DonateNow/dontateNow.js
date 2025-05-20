@@ -26,64 +26,102 @@ window.addEventListener('load', function () {
 
     submitBtn.addEventListener('click', function (e) {
         e.preventDefault();
-        let donation = parseFloat(donationNum.value);
+        let user;
+        try {
+            user = JSON.parse(localStorage.getItem('user'));
+        } catch (error) {
+            console.error('Error parsing user:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Please log in to make a donation',
+            });
+            return;
+        }
 
-        if (!isNaN(donation) && donation > 0) {
-            let currentTotal = parseFloat(localStorage.getItem('donationTotal')) || 0;
-            currentTotal += donation;
-            localStorage.setItem('donationTotal', currentTotal);
+        if (!user) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Not Logged In',
+                text: 'Please log in to make a donation',
+            });
+            return;
+        }
 
-            if (campaignId) {
-                let donatedCampaigns = JSON.parse(localStorage.getItem('donatedCampaigns')) || [];
-                const existingDonation = donatedCampaigns.find(d => d.campaignId === campaignId);
-                if (existingDonation) {
-                    existingDonation.amount += donation;
-                } else {
-                    donatedCampaigns.push({ campaignId, amount: donation });
+        const donation = parseFloat(donationNum.value);
+        if (isNaN(donation) || donation <= 0) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Invalid Amount',
+                text: 'Please enter a valid donation amount',
+            });
+            return;
+        }
+
+        if (campaignId) {
+            // Create a new pledge in the database
+            fetch('http://localhost:3000/pledges', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    backerId: user.id,
+                    backerUsername: user.username,
+                    campaignId: campaignId,
+                    amount: donation,
+                    date: new Date().toISOString()
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to create pledge');
                 }
-                localStorage.setItem('donatedCampaigns', JSON.stringify(donatedCampaigns));
-
-                // Update the campaign's raised amount in the backend
-                fetch(`http://localhost:3000/campaigns/${campaignId}`)
-                    .then(response => response.json())
-                    .then(campaign => {
-                        const updatedMinSalary = (parseFloat(campaign.minSalary) || 0) + donation;
-                        return fetch(`http://localhost:3000/campaigns/${campaignId}`, {
-                            method: 'PATCH',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                minSalary: updatedMinSalary
-                            })
-                        });
+                return response.json();
+            })
+            .then(() => {
+                // Update the campaign's raised amount
+                return fetch(`http://localhost:3000/campaigns/${campaignId}`);
+            })
+            .then(response => response.json())
+            .then(campaign => {
+                const updatedMinSalary = (parseFloat(campaign.minSalary) || 0) + donation;
+                return fetch(`http://localhost:3000/campaigns/${campaignId}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        minSalary: updatedMinSalary
                     })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Failed to update campaign');
-                        }
-                        window.location.href = '../profileBacker/profileBacker.html';
-                    })
-                    .catch(error => {
-                        console.error('Error updating campaign:', error);
-                        Swal.fire({
-                            icon: 'warning',
-                            title: 'Invalid Donation',
-                            text: 'Please enter a valid donation amount.',
-                        });
-
-                    });
-            }
-        } else {
-            console.log('invalid donation');
-            setTimeout(() => {
+                });
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to update campaign');
+                }
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Donation Successful',
+                    text: 'Thank you for your donation!',
+                }).then(() => {
+                    window.location.href = '../profileBacker/profileBacker.html';
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
                 Swal.fire({
                     icon: 'error',
                     title: 'Donation Failed',
-                    text: 'Failed to record donation. Please try again.',
+                    text: 'Failed to process your donation. Please try again.',
                 });
-            }, 2000);
-
+            });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'No campaign selected for donation',
+            });
         }
     });
 });

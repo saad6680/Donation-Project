@@ -198,14 +198,21 @@ function displayPledges() {
         user = JSON.parse(localStorage.getItem('user'));
     } catch (error) {
         console.error('Error parsing user:', error);
-        alert('Error retrieving user data. Please log in again.');
-        window.location.href = '../login_signup/log&sign.html';
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Please log in to view your pledges',
+        });
         return;
     }
 
     if (!user) {
         console.error('No user logged in');
-        window.location.href = '../login_signup/log&sign.html';
+        Swal.fire({
+            icon: 'error',
+            title: 'Not Logged In',
+            text: 'Please log in to view your pledges',
+        });
         return;
     }
 
@@ -217,24 +224,16 @@ function displayPledges() {
 
     tableBody.innerHTML = '';
 
-    fetch('http://localhost:3000/campaigns')
+    // Fetch pledges for this backer
+    fetch(`http://localhost:3000/pledges?backerId=${user.id}`)
         .then(response => {
             if (!response.ok) {
-                throw new Error('Failed to fetch campaigns');
+                throw new Error('Failed to fetch pledges');
             }
             return response.json();
         })
-        .then(campaigns => {
-            console.log('All campaigns:', campaigns);
-            let donatedCampaigns = [];
-            try {
-                donatedCampaigns = JSON.parse(localStorage.getItem('donatedCampaigns')) || [];
-            } catch (error) {
-                console.error('Error parsing donatedCampaigns:', error);
-            }
-
-            if (!Array.isArray(donatedCampaigns)) {
-                console.error('donatedCampaigns is not an array:', donatedCampaigns);
+        .then(pledges => {
+            if (pledges.length === 0) {
                 tableBody.innerHTML = `
                     <tr>
                         <td colspan="4" class="text-center">No pledges found</td>
@@ -243,33 +242,27 @@ function displayPledges() {
                 return;
             }
 
-            donatedCampaigns.forEach((donation, index) => {
-                console.log('Processing donation:', donation);
-                const campaign = campaigns.find(c => c.id === donation.campaignId);
-                if (campaign) {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${index + 1}</td>
-                        <td>${donation.username || user.username}</td>
-                        <td>${campaign.title || 'Untitled Campaign'}</td>
-                        <td>$${parseFloat(donation.amount || 0).toFixed(2)}</td>
-                    `;
-                    tableBody.appendChild(row);
-                } else {
-                    console.warn('Campaign not found for donation:', donation);
-                }
-            });
-
-            if (donatedCampaigns.length === 0) {
-                tableBody.innerHTML = `
-                    <tr>
-                        <td colspan="4" class="text-center">No pledges found</td>
-                    </tr>
-                `;
-            }
+            // Fetch all campaigns to get campaign details
+            return fetch('http://localhost:3000/campaigns')
+                .then(response => response.json())
+                .then(campaigns => {
+                    pledges.forEach((pledge, index) => {
+                        const campaign = campaigns.find(c => c.id === pledge.campaignId);
+                        if (campaign) {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${index + 1}</td>
+                                <td>${pledge.backerUsername}</td>
+                                <td>${campaign.title || 'Untitled Campaign'}</td>
+                                <td>$${parseFloat(pledge.amount).toFixed(2)}</td>
+                            `;
+                            tableBody.appendChild(row);
+                        }
+                    });
+                });
         })
         .catch(error => {
-            console.error('Error fetching campaigns:', error);
+            console.error('Error:', error);
             tableBody.innerHTML = `
                 <tr>
                     <td colspan="4" class="text-center text-danger">Error loading pledges: ${error.message}</td>

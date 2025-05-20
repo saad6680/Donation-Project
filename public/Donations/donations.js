@@ -73,9 +73,12 @@ function DonateBtn() {
     const donateButton = document.querySelector('.btn-donate');
     if (donateButton) {
         donateButton.addEventListener('click', () => {
-            const params = getUrl();
-            console.log(params);
-           
+            // get the campaignId from the URL
+            const url = new URLSearchParams(window.location.search);
+            const campaignId = url.get('campaignId');
+            console.log(campaignId);
+            window.location.href=`../DonateNow/dontateNow.html?campaignId=${campaignId}`
+        
         });
     }
 }

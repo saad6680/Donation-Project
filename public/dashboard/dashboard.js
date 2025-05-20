@@ -98,7 +98,7 @@ async function fetchTotalContainersAndBakers() {
         console.log(bakersCount);
         
         if (bakersCount) {
-            bakersCount.textContent = users.length;
+            bakersCount.textContent = users.length - 1;
         }
     } catch (error) {
         console.error('Error fetching counts:', error);
