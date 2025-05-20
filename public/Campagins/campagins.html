@@ -7,11 +7,21 @@
     <link rel="stylesheet" href="../Navbar/navbar.css">
     <link rel="stylesheet" href="../Footer/footer.css">
     <link rel="stylesheet" href="campagins.css">
-    <title>Document</title>
+    <title>Campaigns</title>
     <style>
         .aNone {
             text-decoration: none;
             color: #fff;
+        }
+        .filter-section {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .pagination {
+            margin-top: 20px;
+            justify-content: center;
         }
     </style>
 </head>
@@ -52,16 +62,47 @@
     </div>
 </nav>
     <section class="donation-section">
-        <div class="container text-center mt-5">
-            <h5>Start Donations</h5>
-            <h4 class="text mb-5">Transparent Donations: See How You<br> Make a Difference</h4>
-            <div class="accepted-campaign-container row">
-                
+        <div class="container mt-5">
+            <h5 class="text-center">Start Donations</h5>
+            <h4 class="text text-center mb-5">Transparent Donations: See How You<br> Make a Difference</h4>
+            
+            <!-- Filter Section -->
+            <div class="filter-section">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="categoryFilter">Filter by Category:</label>
+                        <select class="form-control" id="categoryFilter">
+                            <option value="">All Categories</option>
+                            <option value="Education">Education</option>
+                            <option value="Medical">Medical</option>
+                            <option value="Emergency">Emergency</option>
+                            <option value="Business">Business</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="searchInput">Search Campaigns:</label>
+                        <input type="text" class="form-control" id="searchInput" placeholder="Search by title or description">
+                    </div>
+                </div>
             </div>
+
+            <!-- Campaigns Container -->
+            <div class="accepted-campaign-container row">
+                <!-- Campaigns will be displayed here -->
+            </div>
+
+            <!-- Pagination -->
+            <nav aria-label="Campaign pagination">
+                <ul class="pagination" id="pagination">
+                    <!-- Pagination will be generated here -->
+                </ul>
+            </nav>
         </div>
     </section>
     <div id="footer-placeholder"></div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../utils/profileUtils.js"></script>
     <script src="./campagins.js"></script>
     <script src="../auth.js"></script>
 </body>

@@ -14,6 +14,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const description = document.querySelector('#description');
     const minSalary = document.querySelector('#minSalary');
     const maxSalary = document.querySelector('#maxSalary');
+    const deadline = document.querySelector('#deadline');
+    const category = document.querySelector('#category');
     const submitBtn = document.querySelector('#campSubmit');
     
     const profileLink = document.querySelector('.dropdown-item');
@@ -43,6 +45,8 @@ document.addEventListener('DOMContentLoaded', function () {
         description.value = '';
         minSalary.value = '';
         maxSalary.value = '';
+        deadline.value = '';
+        category.value = '';
     }
 
     function handleErrorsInputs() {
@@ -51,7 +55,9 @@ document.addEventListener('DOMContentLoaded', function () {
             title.value.trim() === '' ||
             description.value.trim() === '' ||
             minSalary.value.trim() === '' ||
-            maxSalary.value.trim() === ''
+            maxSalary.value.trim() === '' ||
+            deadline.value.trim() === '' ||
+            category.value.trim() === ''
         ) {
             pError.style.display = 'block';
             return true;
@@ -129,6 +135,8 @@ document.addEventListener('DOMContentLoaded', function () {
         description: description.value,
         minSalary: minSalary.value,
         maxSalary: maxSalary.value,
+        deadline: deadline.value,
+        category: category.value,
         role: 'campaigner',
         isActive: true,
         creatorUsername: user.username 

@@ -1,7 +1,6 @@
 function displayTopCampaigns() {
     const container = document.querySelector('.donation-section .row');
     
-    // Fetch all campaigns
     fetch('http://localhost:3000/campaigns')
         .then(response => response.json())
         .then(campaigns => {
@@ -12,20 +11,34 @@ function displayTopCampaigns() {
             container.innerHTML = '';
             
             topCampaigns.forEach(campaign => {
+                const deadlineDate = new Date(campaign.deadline);
+                const formattedDeadline = deadlineDate.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+
                 const campaignDiv = document.createElement('div');
                 campaignDiv.classList.add('col-md-4');
                 campaignDiv.innerHTML = `
-                    <div class="donation-card" onclick="window.location.href='../DonateNow/dontateNow.html?campaignId=${campaign.id}'" style="cursor: pointer;">
+                    <div class="campaign-card">
                         <img src="${campaign.image}" alt="${campaign.title}">
-                        <div class="p-3">
-                            <h5>${campaign.title}</h5>
-                            <h6>${campaign.description.substring(0, 100)}...</h6>
-                            <p><b style="color: black;">$${campaign.minSalary}</b> raised of $${campaign.maxSalary} goal</p>
+                        <div class="card-body">
+                            <h5 class="card-title">${campaign.title}</h5>
+                            <p class="card-text">${campaign.description.substring(0, 100)}...</p>
+                            <div class="campaign-info">
+                                <span>Goal: <strong>$${campaign.maxSalary}</strong></span>
+                                <span>Raised: <strong>$${campaign.minSalary}</strong></span>
+                            </div>
                             <div class="progress">
                                 <div class="progress-bar bg-success" style="width: ${(campaign.minSalary / campaign.maxSalary) * 100}%"></div>
                             </div>
-                            <button class="btn btn-warning">
-                                <a href="../DonateNow/dontateNow.html?campaignId=${campaign.id}" class="text-decoration-none text-dark">Donate Now</a>
+                            <div class="campaign-info">
+                                <span>Deadline: <strong>${formattedDeadline}</strong></span>
+                                <span>Category: <strong>${campaign.category}</strong></span>
+                            </div>
+                            <button class="btn btn-warning mt-3">
+                                <a href="../DonateNow/dontateNow.html?campaignId=${campaign.id}">Donate Now</a>
                             </button>
                         </div>
                     </div>
