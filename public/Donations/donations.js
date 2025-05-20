@@ -70,7 +70,8 @@ function DonateBtn() {
     if (donateButton) {
         donateButton.addEventListener('click', () => {
             const params = getUrl();
-            ;
+            console.log(params);
+           
         });
     }
 }
