@@ -51,6 +51,13 @@ function displayAcceptedCampaigns() {
                         day: 'numeric'
                     });
 
+                    // Add status badge
+                    const statusBadge = campaign.status === 'pending' ? 
+                        '<span class="badge bg-warning">Pending</span>' :
+                        campaign.status === 'accepted' ? 
+                        '<span class="badge bg-success">Accepted</span>' :
+                        '<span class="badge bg-danger">Rejected</span>';
+
                     campaignDiv.innerHTML = `
                         <div class="campaign-card">
     <figure class="campaign-image">
@@ -59,7 +66,7 @@ function displayAcceptedCampaigns() {
         <div class="image-overlay"></div>
     </figure>
     <div class="card-content">
-        <h3 class="card-title">${campaign.title}</h3>
+        <h3 class="card-title">${campaign.title} ${statusBadge}</h3>
         <p class="card-description">${campaign.description}</p>
         <div class="campaign-stats">
             <div class="stat-item">

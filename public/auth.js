@@ -10,10 +10,18 @@ const auth = {
 
     isCampaigner() {
         const user = this.getCurrentUser();
+        if (this.getCurrentUser().status === 'false') {
+            alert('Your account is blocked');
+            window.location.href = '/login_signup/log&sign.html';
+        }
         return user && user.role === 'campaigner';
     },
 
     isBacker() {
+        if (this.getCurrentUser().status === 'false') {
+            alert('Your account is blocked');
+            window.location.href = '/login_signup/log&sign.html';
+        }
         const user = this.getCurrentUser();
         return user && user.role === 'backer';
     },

@@ -158,7 +158,9 @@ document.addEventListener('DOMContentLoaded', function () {
             category: category.value,
             role: 'campaigner',
             isActive: true,
-            creatorUsername: user.username
+            creatorUsername: user.username,
+            status: 'pending'
+            
         };
 
         fetch('http://localhost:3000/campaigns', {

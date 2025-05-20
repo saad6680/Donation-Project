@@ -12,20 +12,16 @@ function getData() {
         })
         .then(data => {
             personBoxes.innerHTML = '';
-            const acceptedCampaigns = JSON.parse(localStorage.getItem('acceptedCampaignIds')) || [];
-            const rejectedCampaigns = JSON.parse(localStorage.getItem('rejectedCampaignIds')) || [];
+            const pendingCampaigns = data.filter(campaign => campaign.status === 'pending');
 
-            if (data.length === 0 || data.every(campaign => acceptedCampaigns.includes(campaign.id.toString()) || rejectedCampaigns.includes(campaign.id.toString()))) {
-                personBoxes.innerHTML = '<p>No new campaigns available.</p>';
+            if (pendingCampaigns.length === 0) {
+                personBoxes.innerHTML = '<p>No pending campaigns available.</p>';
                 return;
             }
 
-            data.forEach(campaign => {
+            pendingCampaigns.forEach(campaign => {
                 if (!campaign.id) {
                     console.error('Campaign ID is missing:', campaign);
-                    return;
-                }
-                if (acceptedCampaigns.includes(campaign.id.toString()) || rejectedCampaigns.includes(campaign.id.toString())) {
                     return;
                 }
 
@@ -90,13 +86,17 @@ async function fetchTotalContainersAndBakers() {
         const users = await usersResponse.json();
 
         // Update the containers count
-        const containersCount = document.querySelector('.info-box.active .big');
+        const containersCount = document.querySelector('.comapainsCount');
+        
         if (containersCount) {
             containersCount.textContent = campaigns.length;
+            
         }
 
         // Update the bakers count
-        const bakersCount = document.querySelector('.info-box:nth-child(4) .big');
+        const bakersCount = document.querySelector('.info-box:nth-child(3) .big');
+        console.log(bakersCount);
+        
         if (bakersCount) {
             bakersCount.textContent = users.length;
         }
@@ -112,82 +112,114 @@ document.addEventListener('DOMContentLoaded', async () => {
     donationAmountAndCampaigns();
 });
 
-function accept(event) {
+async function accept(event) {
+    const campaignDiv = event.target.closest('.person-box');
+    const campaignId = campaignDiv.getAttribute('data-id');
+
     try {
-        const campaignCard = event.target.closest('.person-box');
-        if (!campaignCard) {
-            console.error('Campaign card not found');
-            return;
-        }
-        const campaignId = campaignCard.getAttribute('data-id');
-        console.log('Accepting campaign:', campaignId);
+        const response = await fetch(`http://localhost:3000/campaigns/${campaignId}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ status: 'accepted' })
+        });
 
-        campaignCard.remove();
-
-        let acceptedCampaigns = JSON.parse(localStorage.getItem('acceptedCampaignIds')) || [];
-        if (!acceptedCampaigns.includes(campaignId)) {
-            acceptedCampaigns.push(campaignId);
-            localStorage.setItem('acceptedCampaignIds', JSON.stringify(acceptedCampaigns));
-            console.log('Updated acceptedCampaignIds:', acceptedCampaigns);
+        if (!response.ok) {
+            throw new Error('Failed to accept campaign');
         }
+
+        // Remove the campaign from the dashboard
+        campaignDiv.remove();
+        
+        // Show success message
+        Swal.fire({
+            icon: 'success',
+            title: 'Campaign Accepted',
+            text: 'The campaign has been accepted and is now visible to users.',
+            timer: 2000,
+            showConfirmButton: false
+        });
+
+        // Refresh the dashboard
+        getData();
     } catch (error) {
-        console.error('Error in accept function:', error);
+        console.error('Error accepting campaign:', error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Failed to accept campaign. Please try again.',
+        });
     }
 }
 
-function reject(event) {
-    event.preventDefault();
+async function reject(event) {
+    const campaignDiv = event.target.closest('.person-box');
+    const campaignId = campaignDiv.getAttribute('data-id');
+
     try {
-        const campaignCard = event.target.closest('.person-box');
-        if (!campaignCard) {
-            console.error('Campaign card not found');
-            return;
-        }
-        const campaignId = campaignCard.getAttribute('data-id');
-        console.log('Rejecting campaign:', campaignId);
+        const response = await fetch(`http://localhost:3000/campaigns/${campaignId}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ status: 'rejected' })
+        });
 
-        campaignCard.remove();
-
-        let rejectedCampaigns = JSON.parse(localStorage.getItem('rejectedCampaignIds')) || [];
-        if (!rejectedCampaigns.includes(campaignId)) {
-            rejectedCampaigns.push(campaignId);
-            localStorage.setItem('rejectedCampaignIds', JSON.stringify(rejectedCampaigns));
+        if (!response.ok) {
+            throw new Error('Failed to reject campaign');
         }
 
-        setTimeout(() => {
-            Swal.fire({
-                icon: 'error',
-                title: 'Campaign Rejected',
-                text: 'The campaign was rejected',
-                timer: 3000,
-                showConfirmButton: false,
-                timerProgressBar: true
-            });
-        }, 2000);
+        // Remove the campaign from the dashboard
+        campaignDiv.remove();
+        
+        // Show success message
+        Swal.fire({
+            icon: 'success',
+            title: 'Campaign Rejected',
+            text: 'The campaign has been rejected.',
+            timer: 2000,
+            showConfirmButton: false
+        });
 
+        // Refresh the dashboard
+        getData();
     } catch (error) {
-        console.error('Error in reject function:', error);
+        console.error('Error rejecting campaign:', error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Failed to reject campaign. Please try again.',
+        });
     }
 }
 
-function donationAmountAndCampaigns() {
-    const donationTotal = localStorage.getItem('donationTotal');
-    const acceptedCampaignsIds = JSON.parse(localStorage.getItem('acceptedCampaignIds')) || [];
-    const donationAmountElement = document.querySelector('.donationAmount');
-    const campaignsCount = document.querySelector('.campaignsCount');
+async function donationAmountAndCampaigns() {
+    try {
+        // Fetch all campaigns
+        const response = await fetch('http://localhost:3000/campaigns');
+        const campaigns = await response.json();
 
-    if (!donationAmountElement || !campaignsCount) {
-        console.error('Donation amount or campaigns count element not found');
-        return;
+        // Calculate total from accepted campaigns
+        const totalAmount = campaigns
+            .filter(campaign => campaign.status === 'accepted')
+            .reduce((sum, campaign) => sum + Number(campaign.minSalary), 0);
+
+        // Update the donation amount display
+        const donationAmountElement = document.querySelector('.donationAmount');
+        if (donationAmountElement) {
+            donationAmountElement.textContent = totalAmount.toFixed(2);
+        }
+
+        // Update the campaigns count
+        const campaignsCount = document.querySelector('.campaignsCount');
+        if (campaignsCount) {
+            const acceptedCampaignsCount = campaigns.filter(campaign => campaign.status === 'accepted').length;
+            campaignsCount.textContent = acceptedCampaignsCount;
+        }
+    } catch (error) {
+        console.error('Error updating donation amount and campaigns:', error);
     }
-
-    if (donationTotal && !isNaN(parseFloat(donationTotal))) {
-        donationAmountElement.textContent = parseFloat(donationTotal).toFixed(2);
-    } else {
-        donationAmountElement.textContent = '0.00';
-    }
-
-    campaignsCount.textContent = acceptedCampaignsIds.length;
 }
 
 const logoutBtn = document.getElementById('logoutBtn');

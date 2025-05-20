@@ -45,8 +45,9 @@ function fetchAllCampaigns() {
     return fetch('http://localhost:3000/campaigns')
         .then(response => response.json())
         .then(campaigns => {
-            allCampaigns = campaigns;
-            return campaigns;
+            // Filter to only show accepted campaigns
+            allCampaigns = campaigns.filter(campaign => campaign.status === 'accepted');
+            return allCampaigns;
         })
         .catch(error => {
             console.error('Error fetching campaigns:', error);
