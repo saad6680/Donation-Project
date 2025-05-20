@@ -84,7 +84,7 @@ async function fetchTotalContainersAndBakers() {
         // Fetch campaigns to get total containers
         const campaignsResponse = await fetch('http://localhost:3000/campaigns');
         const campaigns = await campaignsResponse.json();
-        
+
         // Fetch users to get total bakers
         const usersResponse = await fetch('http://localhost:3000/users');
         const users = await usersResponse.json();
@@ -154,7 +154,17 @@ function reject(event) {
             localStorage.setItem('rejectedCampaignIds', JSON.stringify(rejectedCampaigns));
         }
 
-        alert('The campaign was rejected');
+        setTimeout(() => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Campaign Rejected',
+                text: 'The campaign was rejected',
+                timer: 3000,
+                showConfirmButton: false,
+                timerProgressBar: true
+            });
+        }, 2000);
+
     } catch (error) {
         console.error('Error in reject function:', error);
     }
@@ -182,7 +192,7 @@ function donationAmountAndCampaigns() {
 
 const logoutBtn = document.getElementById('logoutBtn');
 if (logoutBtn) {
-    logoutBtn.addEventListener('click', function(e) {
+    logoutBtn.addEventListener('click', function (e) {
         e.preventDefault();
         localStorage.removeItem('user');
         window.location.href = '../login_signup/log&sign.html';

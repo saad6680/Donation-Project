@@ -8,13 +8,20 @@ logOut.addEventListener('click', function () {
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM loaded, initializing page');
-    
+
     let user;
     try {
         user = JSON.parse(localStorage.getItem('user'));
     } catch (error) {
         console.error('Error parsing user from localStorage:', error);
-        alert('Error retrieving user data. Please log in again.');
+        Swal.fire({
+            icon: 'error',
+            title: 'Session Expired',
+            text: 'Error retrieving user data. Please log in again.',
+        }).then(() => {
+            window.location.href = '../login_signup/log&sign.html';
+        });
+
         window.location.href = '../login_signup/log&sign.html';
         return;
     }
@@ -23,7 +30,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (user && usernameDisplay) {
         usernameDisplay.textContent = user.username;
     } else if (!user) {
-        alert('User not logged in');
+        Swal.fire({
+            icon: 'warning',
+            title: 'Not Logged In',
+            text: 'Please log in to continue.',
+        }).then(() => {
+            window.location.href = '../login_signup/log&sign.html';
+        });
+
         window.location.href = '../login_signup/log&sign.html';
         return;
     }
@@ -32,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const profileImageInput = document.getElementById('profileImageInput');
     if (profileImageInput) {
-        profileImageInput.addEventListener('change', function(e) {
+        profileImageInput.addEventListener('change', function (e) {
             const file = e.target.files[0];
             if (file) {
                 ProfileUtils.handleImageUpload(file, user?.id)
@@ -49,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
     displayPledges();
 });
 
-document.getElementById('changePasswordForm')?.addEventListener('submit', function(e) {
+document.getElementById('changePasswordForm')?.addEventListener('submit', function (e) {
     e.preventDefault();
     console.log('Submitting changePasswordForm');
 
@@ -88,30 +102,30 @@ document.getElementById('changePasswordForm')?.addEventListener('submit', functi
             password: newPassword
         })
     })
-    .then(response => {
-        console.log('Response status:', response.status);
-        if (!response.ok) {
-            return response.text().then(text => {
-                throw new Error(`Failed to update password: ${text}`);
-            });
-        }
-        return response.json();
-    })
-    .then(updatedUser => {
-        localStorage.setItem('user', JSON.stringify(updatedUser));
-        alert('Password updated successfully');
-        const modalElement = document.getElementById('settingsModal');
-        const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
-        modal.hide();
-        document.getElementById('changePasswordForm').reset();
-    })
-    .catch(error => {
-        console.error('Error updating password:', error);
-        alert(`Failed to update password: ${error.message}`);
-    });
+        .then(response => {
+            console.log('Response status:', response.status);
+            if (!response.ok) {
+                return response.text().then(text => {
+                    throw new Error(`Failed to update password: ${text}`);
+                });
+            }
+            return response.json();
+        })
+        .then(updatedUser => {
+            localStorage.setItem('user', JSON.stringify(updatedUser));
+            alert('Password updated successfully');
+            const modalElement = document.getElementById('settingsModal');
+            const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+            modal.hide();
+            document.getElementById('changePasswordForm').reset();
+        })
+        .catch(error => {
+            console.error('Error updating password:', error);
+            alert(`Failed to update password: ${error.message}`);
+        });
 });
 
-document.getElementById('deleteAccountForm')?.addEventListener('submit', function(e) {
+document.getElementById('deleteAccountForm')?.addEventListener('submit', function (e) {
     e.preventDefault();
     console.log('Submitting deleteAccountForm');
 
@@ -140,42 +154,42 @@ document.getElementById('deleteAccountForm')?.addEventListener('submit', functio
         },
         body: JSON.stringify({ password })
     })
-    .then(response => {
-        if (!response.ok) {
-            return response.text().then(text => {
-                throw new Error(`Password verification failed: ${text}`);
-            });
-        }
-        return fetch('http://localhost:3000/campaigns');
-    })
-    .then(response => response.json())
-    .then(campaigns => {
-        const userCampaigns = campaigns.filter(campaign => campaign.creatorUsername === user.username);
-        const deletePromises = userCampaigns.map(campaign => 
-            fetch(`http://localhost:3000/campaigns/${campaign.id}`, {
+        .then(response => {
+            if (!response.ok) {
+                return response.text().then(text => {
+                    throw new Error(`Password verification failed: ${text}`);
+                });
+            }
+            return fetch('http://localhost:3000/campaigns');
+        })
+        .then(response => response.json())
+        .then(campaigns => {
+            const userCampaigns = campaigns.filter(campaign => campaign.creatorUsername === user.username);
+            const deletePromises = userCampaigns.map(campaign =>
+                fetch(`http://localhost:3000/campaigns/${campaign.id}`, {
+                    method: 'DELETE'
+                })
+            );
+            return Promise.all(deletePromises);
+        })
+        .then(() => {
+            return fetch(`http://localhost:3000/users/${user.id}`, {
                 method: 'DELETE'
-            })
-        );
-        return Promise.all(deletePromises);
-    })
-    .then(() => {
-        return fetch(`http://localhost:3000/users/${user.id}`, {
-            method: 'DELETE'
+            });
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to delete account');
+            }
+            localStorage.removeItem('user');
+            localStorage.removeItem('donatedCampaigns');
+            localStorage.removeItem('currentDonate');
+            window.location.href = '../login_signup/log&sign.html';
+        })
+        .catch(error => {
+            console.error('Error deleting account:', error);
+            alert(`Failed to delete account: ${error.message}`);
         });
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Failed to delete account');
-        }
-        localStorage.removeItem('user');
-        localStorage.removeItem('donatedCampaigns');
-        localStorage.removeItem('currentDonate');
-        window.location.href = '../login_signup/log&sign.html';
-    })
-    .catch(error => {
-        console.error('Error deleting account:', error);
-        alert(`Failed to delete account: ${error.message}`);
-    });
 });
 
 function displayPledges() {
@@ -264,7 +278,7 @@ function displayPledges() {
         });
 }
 
-window.addEventListener('load', function() {
+window.addEventListener('load', function () {
     const submitBtn = document.querySelector('form button[type="submit"]');
     const donationNum = document.querySelector('#validationDefault05');
 
@@ -302,7 +316,7 @@ window.addEventListener('load', function() {
             .catch(error => console.error('Error fetching campaign details:', error));
     }
 
-    submitBtn.addEventListener('click', function(e) {
+    submitBtn.addEventListener('click', function (e) {
         e.preventDefault();
         let user;
         try {
@@ -343,8 +357,8 @@ window.addEventListener('load', function() {
             if (existingDonation) {
                 existingDonation.amount += donation;
             } else {
-                donatedCampaigns.push({ 
-                    campaignId, 
+                donatedCampaigns.push({
+                    campaignId,
                     amount: donation,
                     username: user.username
                 });
