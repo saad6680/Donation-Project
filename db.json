@@ -97,21 +97,32 @@
       "username": "john_01",
       "email": "elmalomawy@gmail.com",
       "password": "246824689hH*",
-      "role": "campaigner"
+      "role": "campaigner",
+      "status": true
     },
     {
       "id": "c642",
       "username": "john.ihab",
       "email": "johnihab.01@gmail.com",
       "password": "246824689jJ*",
-      "role": "campaigner"
+      "role": "campaigner",
+      "status": true
     },
     {
       "id": "58a0",
       "username": "backer",
       "email": "backer@gmail.com",
       "password": "246824689jJ*",
-      "role": "backer"
+      "role": "backer",
+      "status": true
+    },
+    {
+      "id": "8520",
+      "username": "gowyjyp",
+      "email": "ryjazo@mailinator.com",
+      "password": "Pa$$w0rd!",
+      "role": "campaigner",
+      "status": "false"
     }
   ]
 }

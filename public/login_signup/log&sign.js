@@ -82,6 +82,8 @@ async function handleSignup(event) {
     const password = document.getElementById("password").value;
     const confirmPassword = document.getElementById("confirmPassword").value;
     const role = document.querySelector('input[name="role"]:checked')?.value;
+    const status = "true";
+    
 
     if (!username) {
         displayError("signup-error", "Please enter a username");
@@ -137,7 +139,8 @@ async function handleSignup(event) {
             username,
             email,
             password,
-            role
+            role,
+            status
         };
 
         const response = await fetch("http://localhost:3000/users", {
@@ -190,7 +193,7 @@ function handleLogin(event) {
         .then(data => {
 
             const user = data.find(user =>
-                user.username === username && user.password === password
+                user.username === username && user.password === password && user.status !== 'false'
             );
             if (user) {
                 displayError("login-error", "Login successful!", "green");
