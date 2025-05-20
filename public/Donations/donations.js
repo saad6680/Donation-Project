@@ -23,20 +23,20 @@ function updateHero(campaignData) {
     
     const heroImage = document.querySelector('.hero-image img');
     if (heroImage && campaignData.image) {
-        heroImage.src = decodeURIComponent(campaignData.image);
+        heroImage.src = campaignData.image;
         heroImage.alt = campaignData.title || 'Campaign Image';
     }
 
   
     const title = document.querySelector('.donation-content h2');
     if (title && campaignData.title) {
-        title.textContent = decodeURIComponent(campaignData.title);
+        title.textContent = campaignData.title;
     }
 
     
     const description = document.querySelector('.donation-content p');
     if (description && campaignData.description) {
-        description.textContent = decodeURIComponent(campaignData.description);
+        description.textContent = campaignData.description;
     }
 
     
