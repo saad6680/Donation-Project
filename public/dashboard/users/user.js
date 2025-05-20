@@ -25,9 +25,9 @@ async function getUsers() {
             <td>${setUser(user.username)}</td>
             <td>${setUser(user.email)}</td>
             <td>
-              <button class="btn remove" onclick="removeUser('${user._id || user.id}', this)">Remove</button>
-              <button class="btn block" onclick="toggleBlockUser('${user._id || user.id}', ${!user.isBlocked})">
-                ${user.isBlocked ? 'Unblock' : 'Block'}
+              <button class="btn remove" data-action="remove" data-id="${user._id || user.id}">Remove</button>
+              <button class="btn block" data-action="toggle-block" data-id="${user._id || user.id}" data-blocked="${user.status === 'false'}">
+                ${user.status === 'false' ? 'Unblock' : 'Block'}
               </button>
             </td>
           </tr>
@@ -55,8 +55,8 @@ async function getUsers() {
     if (action === 'remove') {
       await removeUser(userId, button);
     } else if (action === 'toggle-block') {
-      const blockStatus = button.dataset.blocked === 'true';
-      await toggleBlockUser(userId, !blockStatus);
+      const isBlocked = button.dataset.blocked === 'true';
+      await blockUser(userId, !isBlocked);
     }
   }
   
@@ -94,12 +94,12 @@ async function getUsers() {
     }
   }
   
-  async function toggleBlockUser(userId, blockStatus) {
+  async function blockUser(userId, blockStatus) {
     try {
-      const response = await fetch(`http://localhost:3000/users/${userId}/toggle-block`, {
-        method: 'PUT',
+      const response = await fetch(`http://localhost:3000/users/${userId}`, {
+        method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ isBlocked: blockStatus }),
+        body: JSON.stringify({ status: blockStatus ? 'false' : 'true' }),
       });
   
       if (response.ok) {
