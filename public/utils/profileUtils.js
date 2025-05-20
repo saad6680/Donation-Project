@@ -1,24 +1,18 @@
-// Profile image handling utilities
 const ProfileUtils = {
-    // Update profile image in all locations
     updateProfileImage: function(imageData) {
-        // Update main profile image if exists
         const mainProfileImage = document.getElementById('profileImage');
         if (mainProfileImage) {
             mainProfileImage.src = imageData;
         }
 
-        // Update navbar profile image if exists
         const navbarProfileImage = document.querySelector('.navbar .dropdown-toggle img');
         if (navbarProfileImage) {
             navbarProfileImage.src = imageData;
         }
 
-        // Save to localStorage
         localStorage.setItem('profileImage', imageData);
     },
 
-    // Load saved profile image
     loadProfileImage: function() {
         const savedImage = localStorage.getItem('profileImage');
         if (savedImage) {
@@ -26,7 +20,6 @@ const ProfileUtils = {
         }
     },
 
-    // Handle profile image upload
     handleImageUpload: function(file, userId) {
         return new Promise((resolve, reject) => {
             if (!file) {
@@ -34,13 +27,11 @@ const ProfileUtils = {
                 return;
             }
 
-            // Check if file is an image
             if (!file.type.startsWith('image/')) {
                 reject('Please select an image file');
                 return;
             }
 
-            // Check file size (max 5MB)
             if (file.size > 5 * 1024 * 1024) {
                 reject('Image size should be less than 5MB');
                 return;
@@ -51,7 +42,6 @@ const ProfileUtils = {
                 const imageData = e.target.result;
                 this.updateProfileImage(imageData);
 
-                // Update user profile in backend
                 if (userId) {
                     fetch(`http://localhost:3000/users/${userId}`, {
                         method: 'PATCH',
@@ -86,5 +76,4 @@ const ProfileUtils = {
     }
 };
 
-// Export the utilities
 window.ProfileUtils = ProfileUtils; 

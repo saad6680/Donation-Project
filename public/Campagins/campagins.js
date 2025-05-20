@@ -103,27 +103,40 @@ function displayCampaigns(campaigns) {
         campaignDiv.setAttribute('data-id', campaign.id);
         campaignDiv.innerHTML = `
             <div class="campaign-card">
-                <img onclick="window.location.href='../Donations/donations.html?campaignId=${campaign.id}'" 
-                    src="${campaign.image}" alt="Campaign Image" />
-                <div class="card-body">
-                    <h5 class="card-title">${campaign.title}</h5>
-                    <p class="card-text">${campaign.description}</p>
-                    <div class="campaign-info">
-                        <span>Goal: <strong>$${campaign.maxSalary}</strong></span>
-                        <span>Raised: <strong>$${campaign.minSalary}</strong></span>
-                    </div>
-                    <div class="progress">
-                        <div class="progress-bar bg-success" style="width: ${(campaign.minSalary / campaign.maxSalary) * 100}%"></div>
-                    </div>
-                    <div class="campaign-info">
-                        <span>Deadline: <strong>${formattedDeadline}</strong></span>
-                        <span>Category: <strong>${campaign.category}</strong></span>
-                    </div>
-                    <button class="btn btn-warning mt-3">
-                        <a href="../DonateNow/dontateNow.html?campaignId=${campaign.id}">Donate Now</a>
-                    </button>
-                </div>
+    <figure class="campaign-image">
+        <img onclick="window.location.href='../Donations/donations.html?campaignId=${campaign.id}'" 
+             src="${campaign.image}" alt="Campaign Image" />
+    </figure>
+    <div class="card-content">
+        <h3 class="card-title">${campaign.title}</h3>
+        <p class="card-description">${campaign.description}</p>
+        <div class="campaign-stats">
+            <div class="stat-item">
+                <span class="stat-label">Goal:</span>
+                <strong>$${campaign.maxSalary}</strong>
             </div>
+            <div class="stat-item">
+                <span class="stat-label">Raised:</span>
+                <strong>$${campaign.minSalary}</strong>
+            </div>
+        </div>
+        <div class="progress-bar-container">
+            <div class="progress-bar" style="width: ${(campaign.minSalary / campaign.maxSalary) * 100}%"></div>
+        </div>
+        <div class="campaign-meta">
+            <div class="meta-item">
+                <span class="meta-label">Deadline:</span>
+                <strong>${formattedDeadline}</strong>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">Category:</span>
+                <strong>${campaign.category}</strong>
+            </div>
+        </div>
+        <a href="../DonateNow/dontateNow.html?campaignId=${campaign.id}" target= '_blank' class="donate-button">Donate Now</a>
+        
+    </div>
+</div>
         `;
         container.appendChild(campaignDiv);
     });

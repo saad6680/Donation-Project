@@ -1,6 +1,10 @@
 async function getUrl() {
     const url = new URLSearchParams(window.location.search);
-    const campaignId = url.get('id');
+    console.log(url);
+    
+    const campaignId = url.get('campaignId');
+    console.log(campaignId);
+    
     
     if (!campaignId) {
         console.log('No campaign ID found in URL');
@@ -27,7 +31,7 @@ function updateHero(campaignData) {
         heroImage.alt = campaignData.title || 'Campaign Image';
     }
 
-  
+
     const title = document.querySelector('.donation-content h2');
     if (title && campaignData.title) {
         title.textContent = decodeURIComponent(campaignData.title);

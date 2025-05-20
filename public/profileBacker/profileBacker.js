@@ -1,5 +1,4 @@
-let logOut = document.getElementById('logOut');
-
+const logOut = document.getElementById('logOut');
 logOut.addEventListener('click', function () {
     localStorage.removeItem('user');
     localStorage.removeItem('donatedCampaigns');
@@ -9,10 +8,24 @@ logOut.addEventListener('click', function () {
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM loaded, initializing page');
-    const user = JSON.parse(localStorage.getItem('user'));
+    
+    let user;
+    try {
+        user = JSON.parse(localStorage.getItem('user'));
+    } catch (error) {
+        console.error('Error parsing user from localStorage:', error);
+        alert('Error retrieving user data. Please log in again.');
+        window.location.href = '../login_signup/log&sign.html';
+        return;
+    }
+
     const usernameDisplay = document.getElementById('usernameDisplay');
     if (user && usernameDisplay) {
         usernameDisplay.textContent = user.username;
+    } else if (!user) {
+        alert('User not logged in');
+        window.location.href = '../login_signup/log&sign.html';
+        return;
     }
 
     ProfileUtils.loadProfileImage();
@@ -38,19 +51,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
 document.getElementById('changePasswordForm')?.addEventListener('submit', function(e) {
     e.preventDefault();
-    
+    console.log('Submitting changePasswordForm');
+
     const currentPassword = document.getElementById('currentPassword').value;
     const newPassword = document.getElementById('newPassword').value;
     const confirmPassword = document.getElementById('confirmPassword').value;
-    
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (!user) {
-        alert('User not logged in');
+
+    let user;
+    try {
+        user = JSON.parse(localStorage.getItem('user'));
+    } catch (error) {
+        console.error('Error parsing user:', error);
+        alert('Error retrieving user data. Please log in again.');
+        window.location.href = '../login_signup/log&sign.html';
         return;
     }
 
-    if (currentPassword !== user.password) {
-        alert('Current password is incorrect');
+    if (!user) {
+        alert('User not logged in');
+        window.location.href = '../login_signup/log&sign.html';
         return;
     }
 
@@ -65,79 +84,114 @@ document.getElementById('changePasswordForm')?.addEventListener('submit', functi
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
+            currentPassword: currentPassword,
             password: newPassword
         })
     })
     .then(response => {
+        console.log('Response status:', response.status);
         if (!response.ok) {
-            throw new Error('Failed to update password');
+            return response.text().then(text => {
+                throw new Error(`Failed to update password: ${text}`);
+            });
         }
         return response.json();
     })
     .then(updatedUser => {
         localStorage.setItem('user', JSON.stringify(updatedUser));
         alert('Password updated successfully');
-        const modal = bootstrap.Modal.getInstance(document.getElementById('settingsModal'));
+        const modalElement = document.getElementById('settingsModal');
+        const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
         modal.hide();
         document.getElementById('changePasswordForm').reset();
     })
     .catch(error => {
-        console.error('Error:', error);
-        alert('Failed to update password. Please try again.');
+        console.error('Error updating password:', error);
+        alert(`Failed to update password: ${error.message}`);
     });
 });
 
 document.getElementById('deleteAccountForm')?.addEventListener('submit', function(e) {
     e.preventDefault();
-    
+    console.log('Submitting deleteAccountForm');
+
     const password = document.getElementById('deletePassword').value;
-    
-    const user = JSON.parse(localStorage.getItem('user'));
+
+    let user;
+    try {
+        user = JSON.parse(localStorage.getItem('user'));
+    } catch (error) {
+        console.error('Error parsing user:', error);
+        alert('Error retrieving user data. Please log in again.');
+        window.location.href = '../login_signup/log&sign.html';
+        return;
+    }
+
     if (!user) {
         alert('User not logged in');
+        window.location.href = '../login_signup/log&sign.html';
         return;
     }
 
-    if (password !== user.password) {
-        alert('Incorrect password');
-        return;
-    }
-
-    fetch('http://localhost:3000/campaigns')
-        .then(response => response.json())
-        .then(campaigns => {
-            const userCampaigns = campaigns.filter(campaign => campaign.creatorUsername === user.username);
-            const deletePromises = userCampaigns.map(campaign => 
-                fetch(`http://localhost:3000/campaigns/${campaign.id}`, {
-                    method: 'DELETE'
-                })
-            );
-            return Promise.all(deletePromises);
-        })
-        .then(() => {
-            return fetch(`http://localhost:3000/users/${user.id}`, {
-                method: 'DELETE'
+    fetch(`http://localhost:3000/users/${user.id}/verify-password`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ password })
+    })
+    .then(response => {
+        if (!response.ok) {
+            return response.text().then(text => {
+                throw new Error(`Password verification failed: ${text}`);
             });
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to delete account');
-            }
-            localStorage.removeItem('user');
-            window.location.href = '../login_signup/log&sign.html';
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Failed to delete account. Please try again.');
+        }
+        return fetch('http://localhost:3000/campaigns');
+    })
+    .then(response => response.json())
+    .then(campaigns => {
+        const userCampaigns = campaigns.filter(campaign => campaign.creatorUsername === user.username);
+        const deletePromises = userCampaigns.map(campaign => 
+            fetch(`http://localhost:3000/campaigns/${campaign.id}`, {
+                method: 'DELETE'
+            })
+        );
+        return Promise.all(deletePromises);
+    })
+    .then(() => {
+        return fetch(`http://localhost:3000/users/${user.id}`, {
+            method: 'DELETE'
         });
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to delete account');
+        }
+        localStorage.removeItem('user');
+        localStorage.removeItem('donatedCampaigns');
+        localStorage.removeItem('currentDonate');
+        window.location.href = '../login_signup/log&sign.html';
+    })
+    .catch(error => {
+        console.error('Error deleting account:', error);
+        alert(`Failed to delete account: ${error.message}`);
+    });
 });
 
 function displayPledges() {
-    const user = JSON.parse(localStorage.getItem('user'));
-    console.log('Current user data:', user);
-    
+    let user;
+    try {
+        user = JSON.parse(localStorage.getItem('user'));
+    } catch (error) {
+        console.error('Error parsing user:', error);
+        alert('Error retrieving user data. Please log in again.');
+        window.location.href = '../login_signup/log&sign.html';
+        return;
+    }
+
     if (!user) {
         console.error('No user logged in');
+        window.location.href = '../login_signup/log&sign.html';
         return;
     }
 
@@ -158,23 +212,26 @@ function displayPledges() {
         })
         .then(campaigns => {
             console.log('All campaigns:', campaigns);
-            const donatedCampaigns = JSON.parse(localStorage.getItem('donatedCampaigns')) || [];
-            console.log('Donated campaigns from localStorage:', donatedCampaigns);
-            
+            let donatedCampaigns = [];
+            try {
+                donatedCampaigns = JSON.parse(localStorage.getItem('donatedCampaigns')) || [];
+            } catch (error) {
+                console.error('Error parsing donatedCampaigns:', error);
+            }
+
             if (!Array.isArray(donatedCampaigns)) {
                 console.error('donatedCampaigns is not an array:', donatedCampaigns);
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="4" class="text-center">No pledges found</td>
+                    </tr>
+                `;
                 return;
             }
-            
+
             donatedCampaigns.forEach((donation, index) => {
                 console.log('Processing donation:', donation);
-                console.log('Looking for campaign with ID:', donation.campaignId);
-                
-                const campaignId = parseInt(donation.campaignId);
-                const campaign = campaigns.find(c => parseInt(c.id) === campaignId);
-                
-                console.log('Found campaign:', campaign);
-                
+                const campaign = campaigns.find(c => c.id === donation.campaignId);
                 if (campaign) {
                     const row = document.createElement('tr');
                     row.innerHTML = `
@@ -201,89 +258,131 @@ function displayPledges() {
             console.error('Error fetching campaigns:', error);
             tableBody.innerHTML = `
                 <tr>
-                    <td colspan="4" class="text-center text-danger">Error loading pledges</td>
+                    <td colspan="4" class="text-center text-danger">Error loading pledges: ${error.message}</td>
                 </tr>
             `;
         });
 }
 
-window.addEventListener('load', function(){
-    const submitBtn = document.querySelector('button[type="submit"]');
+window.addEventListener('load', function() {
+    const submitBtn = document.querySelector('form button[type="submit"]');
     const donationNum = document.querySelector('#validationDefault05');
-    
+
+    if (!submitBtn || !donationNum) {
+        console.warn('Donation form elements not found');
+        return;
+    }
+
     const urlParams = new URLSearchParams(window.location.search);
     const campaignId = urlParams.get('campaignId');
-    
+
     if (campaignId) {
         fetch(`http://localhost:3000/campaigns/${campaignId}`)
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch campaign');
+                }
+                return response.json();
+            })
             .then(campaign => {
                 const form = document.querySelector('form');
-                const campaignInfo = document.createElement('div');
-                campaignInfo.classList.add('col-md-12', 'mb-4');
-                campaignInfo.innerHTML = `
-                    <h4>Campaign Details</h4>
-                    <p><strong>Title:</strong> ${campaign.title}</p>
-                    <p><strong>Description:</strong> ${campaign.description}</p>
-                    <p><strong>Goal:</strong> $${campaign.maxSalary}</p>
-                    <p><strong>Raised so far:</strong> $${campaign.minSalary}</p>
-                `;
-                form.insertBefore(campaignInfo, form.firstChild);
+                if (form) {
+                    const campaignInfo = document.createElement('div');
+                    campaignInfo.classList.add('col-md-12', 'mb-4');
+                    campaignInfo.innerHTML = `
+                        <h4>Campaign Details</h4>
+                        <p><strong>Title:</strong> ${campaign.title}</p>
+                        <p><strong>Description:</strong> ${campaign.description}</p>
+                        <p><strong>Goal:</strong> $${campaign.maxSalary}</p>
+                        <p><strong>Raised so far:</strong> $${campaign.minSalary}</p>
+                    `;
+                    form.insertBefore(campaignInfo, form.firstChild);
+                }
             })
             .catch(error => console.error('Error fetching campaign details:', error));
     }
-    
-    submitBtn.addEventListener('click', function(e){
+
+    submitBtn.addEventListener('click', function(e) {
         e.preventDefault();
-        let donation = parseFloat(donationNum.value);
-        
-        if (!isNaN(donation) && donation > 0) {
-            let currentTotal = parseFloat(localStorage.getItem('donationTotal')) || 0;
-            currentTotal += donation;
-            localStorage.setItem('donationTotal', currentTotal);
+        let user;
+        try {
+            user = JSON.parse(localStorage.getItem('user'));
+        } catch (error) {
+            console.error('Error parsing user:', error);
+            alert('Error retrieving user data. Please log in again.');
+            window.location.href = '../login_signup/log&sign.html';
+            return;
+        }
 
-            if (campaignId) {
-                let donatedCampaigns = JSON.parse(localStorage.getItem('donatedCampaigns')) || [];
-                const existingDonation = donatedCampaigns.find(d => d.campaignId === campaignId);
-                if (existingDonation) {
-                    existingDonation.amount += donation;
-                } else {
-                    donatedCampaigns.push({ 
-                        campaignId, 
-                        amount: donation,
-                        username: user.username
-                    });
-                }
-                localStorage.setItem('donatedCampaigns', JSON.stringify(donatedCampaigns));
+        if (!user) {
+            alert('User not logged in');
+            window.location.href = '../login_signup/log&sign.html';
+            return;
+        }
 
-                fetch(`http://localhost:3000/campaigns/${campaignId}`)
-                    .then(response => response.json())
-                    .then(campaign => {
-                        const updatedMinSalary = (parseFloat(campaign.minSalary) || 0) + donation;
-                        return fetch(`http://localhost:3000/campaigns/${campaignId}`, {
-                            method: 'PATCH',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                minSalary: updatedMinSalary
-                            })
-                        });
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Failed to update campaign');
-                        }
-                        window.location.href = '../profileBacker/profileBacker.html';
-                    })
-                    .catch(error => {
-                        console.error('Error updating campaign:', error);
-                        alert('Failed to record donation. Please try again.');
-                    });
+        const donation = parseFloat(donationNum.value);
+        if (isNaN(donation) || donation <= 0) {
+            console.log('Invalid donation amount');
+            alert('Please enter a valid donation amount');
+            return;
+        }
+
+        let currentTotal = parseFloat(localStorage.getItem('donationTotal')) || 0;
+        currentTotal += donation;
+        localStorage.setItem('donationTotal', currentTotal);
+
+        if (campaignId) {
+            let donatedCampaigns = [];
+            try {
+                donatedCampaigns = JSON.parse(localStorage.getItem('donatedCampaigns')) || [];
+            } catch (error) {
+                console.error('Error parsing donatedCampaigns:', error);
             }
+
+            const existingDonation = donatedCampaigns.find(d => d.campaignId === campaignId);
+            if (existingDonation) {
+                existingDonation.amount += donation;
+            } else {
+                donatedCampaigns.push({ 
+                    campaignId, 
+                    amount: donation,
+                    username: user.username
+                });
+            }
+            localStorage.setItem('donatedCampaigns', JSON.stringify(donatedCampaigns));
+
+            fetch(`http://localhost:3000/campaigns/${campaignId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch campaign');
+                    }
+                    return response.json();
+                })
+                .then(campaign => {
+                    const updatedMinSalary = (parseFloat(campaign.minSalary) || 0) + donation;
+                    return fetch(`http://localhost:3000/campaigns/${campaignId}`, {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            minSalary: updatedMinSalary
+                        })
+                    });
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to update campaign');
+                    }
+                    window.location.href = '../profileBacker/profileBacker.html';
+                })
+                .catch(error => {
+                    console.error('Error updating campaign:', error);
+                    alert(`Failed to record donation: ${error.message}`);
+                });
         } else {
-            console.log('invalid donation');
-            alert('please enter a valid donation');
+            console.log('No campaign ID provided');
+            alert('No campaign selected for donation');
         }
     });
 });
