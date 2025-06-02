@@ -107,6 +107,16 @@ async function fetchTotalContainersAndBakers() {
 
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('DOM loaded, initializing dashboard');
+    
+    // Get user data and update navbar
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+        const userNameElement = document.querySelector('.user-dropdown .btn span');
+        if (userNameElement) {
+            userNameElement.textContent = user.name || 'Admin';
+        }
+    }
+    
     await fetchTotalContainersAndBakers();
     getData();
     donationAmountAndCampaigns();

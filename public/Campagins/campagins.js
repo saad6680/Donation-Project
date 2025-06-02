@@ -5,7 +5,7 @@ fetch('../Footer/footer.html')
         document.getElementById('footer-placeholder').innerHTML = data;
     });
 
-//-------------------------------------------------------------------------
+
 
 let allCampaigns = [];
 const itemsPerPage = 8;

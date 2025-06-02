@@ -1,11 +1,247 @@
+/* Navbar Styles */
+.navbar {
+    padding: 1rem 0;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar-brand {
+    padding: 0;
+}
+
 .navbar-logo {
-    width: 7rem;
+    height: 40px;
+    width: auto;
 }
-.active {
+
+.navbar-nav {
+    gap: 1.5rem;
+}
+
+.nav-link {
+    color: #333 !important;
+    font-weight: 500;
+    padding: 0.5rem 1rem !important;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background-color: #094C3B;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    width: 80%;
+}
+
+.nav-link:hover,
+.nav-link.active {
     color: #094C3B !important;
-    font-weight: bold;
 }
+
+/* Login Button */
+.btn-success {
+    background-color: #094C3B !important;
+    border: none !important;
+    padding: 0.5rem 1.5rem;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+}
+
+.btn-success:hover {
+    background-color: #073829 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(9, 76, 59, 0.2);
+}
+
 .inlineA {
-    text-decoration: none ;
-    color: #fff;
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+/* User Dropdown */
+#userDropdown {
+    margin-left: 1rem;
+}
+
+#userDropdown .btn {
+    padding: 0;
+    border: none;
+    background: none;
+    transition: all 0.3s ease;
+}
+
+#userDropdown .btn:hover {
+    transform: translateY(-2px);
+}
+
+.dropdownImage {
+    border: 2px solid #094C3B;
+    transition: all 0.3s ease;
+}
+
+#userDropdown .btn:hover .dropdownImage {
+    box-shadow: 0 4px 12px rgba(9, 76, 59, 0.2);
+}
+
+.dropdown-menu {
+    border: none;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 0.5rem;
+    min-width: 200px;
+}
+
+.dropdown-item {
+    padding: 0.7rem 1rem;
+    border-radius: 5px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+    transform: translateX(5px);
+}
+
+.dropdown-item i {
+    width: 20px;
+    color: #094C3B;
+}
+
+.dropdown-divider {
+    margin: 0.5rem 0;
+}
+
+/* Responsive Styles */
+@media (max-width: 991.98px) {
+    .navbar {
+        padding: 0.5rem 0;
+    }
+
+    .navbar-collapse {
+        background: white;
+        padding: 1rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        margin-top: 1rem;
+    }
+
+    .navbar-nav {
+        gap: 0.5rem;
+    }
+
+    .nav-link {
+        padding: 0.75rem 1rem !important;
+    }
+
+    .nav-link::after {
+        display: none;
+    }
+
+    .btn-success {
+        width: 100%;
+        margin-top: 1rem;
+    }
+
+    #userDropdown {
+        margin: 1rem 0 0 0;
+        display: flex;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .navbar-logo {
+        height: 35px;
+    }
+
+    .navbar-toggler {
+        padding: 0.25rem;
+        border: none;
+    }
+
+    .navbar-toggler:focus {
+        box-shadow: none;
+    }
+
+    .navbar-toggler-icon {
+        width: 1.5em;
+        height: 1.5em;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .navbar {
+        padding: 0.5rem;
+    }
+
+    .navbar-logo {
+        height: 30px;
+    }
+
+    .dropdown-menu {
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+}
+
+/* Animation for dropdown */
+.dropdown-menu {
+    animation: dropdownFade 0.2s ease;
+}
+
+@keyframes dropdownFade {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Active state for current page */
+.nav-link.active {
+    font-weight: 600;
+}
+
+/* Hover effect for dropdown items */
+.dropdown-item:hover i {
+    transform: scale(1.1);
+}
+
+/* Custom scrollbar for dropdown */
+.dropdown-menu::-webkit-scrollbar {
+    width: 6px;
+}
+
+.dropdown-menu::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.dropdown-menu::-webkit-scrollbar-thumb {
+    background: #094C3B;
+    border-radius: 3px;
+}
+
+.dropdown-menu::-webkit-scrollbar-thumb:hover {
+    background: #073829;
 }

@@ -33,17 +33,27 @@ const auth = {
 
     updateNavbar() {
         const loginButton = document.querySelector('.btn-success');
-        const logoutButton = document.getElementById('logoutBtn');
+        const userDropdown = document.getElementById('userDropdown');
+        const profileLink = document.getElementById('profileLink');
         const user = this.getCurrentUser();
         
-        if (loginButton && logoutButton) {
-            if (user) {
-                loginButton.style.display = 'none';
-                logoutButton.style.display = 'block';
-            } else {
-                loginButton.style.display = 'block';
-                logoutButton.style.display = 'none';
+        if (user) {
+            // User is logged in
+            if (loginButton) loginButton.style.display = 'none';
+            if (userDropdown) userDropdown.style.display = 'block';
+            
+            // Update profile link based on user role
+            if (profileLink) {
+                if (user.role === 'campaigner') {
+                    profileLink.href = './profileCampaigner/profileCampaigner.html';
+                } else if (user.role === 'backer') {
+                    profileLink.href = './profileBacker/profileBacker.html';
+                }
             }
+        } else {
+            // User is not logged in
+            if (loginButton) loginButton.style.display = 'block';
+            if (userDropdown) userDropdown.style.display = 'none';
         }
     },
 

@@ -1,21 +1,25 @@
-fetch('./Navbar/navbar.html')
-    .then(response => response.text())
-    .then(data => {
-        document.getElementById('navbar-placeholder').innerHTML = data;
-        if (typeof auth !== 'undefined') {
-            auth.updateNavbar();
-        }
-    });
+// Load navbar
+document.addEventListener('DOMContentLoaded', function() {
+    // Load navbar content
+    fetch('Navbar/navbar.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('navbar-placeholder').innerHTML = data;
+            updateNavbar();
+        });
 
-fetch('./Footer/footer.html')
-    .then(response => response.text())
-    .then(data => {
-        document.getElementById('footer-placeholder').innerHTML = data;
-    });
+    // Load home content
+    fetch('Home/home.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('home-placeholder').innerHTML = data;
+        });
 
-fetch('./Home/home.html')
-    .then(response => response.text())
-    .then(data => {
-        document.getElementById('home-placeholder').innerHTML = data;
-    });
+    // Load footer content
+    fetch('Footer/footer.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('footer-placeholder').innerHTML = data;
+        });
+});
 
